@@ -2,6 +2,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/versão-0.0.1-blue" alt="Versão">
   <img src="https://img.shields.io/badge/docker-suportado-0db7ed?logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/github/license/lemont037/susel" alt="Licença">
   <img src="https://img.shields.io/github/last-commit/lemont037/susel" alt="Último commit">
   <img src="https://img.shields.io/github/issues/lemont037/susel" alt="Issues abertas">
 </p>
