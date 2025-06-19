@@ -1,0 +1,12 @@
+blank_issues_enabled: false
+
+issue_template:
+  - name: "🐞 Relatar um Bug"
+    about: "Reporte um problema encontrado no sistema"
+    filename: "bug_report.md"
+  - name: "🧩 Épico"
+    about: "Agrupe issues relacionadas a um grande objetivo ou funcionalidade"
+    filename: "epic.md"
+  - name: "🧩 Tarefa"
+    about: "Descrever uma tarefa técnica, funcional ou de design"
+    filename: "tarefa_geral.md"
