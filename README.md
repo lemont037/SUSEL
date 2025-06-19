@@ -85,3 +85,4 @@ cp .env.example .env
 
 # Suba os serviços com Docker
 docker-compose up --build
+```
