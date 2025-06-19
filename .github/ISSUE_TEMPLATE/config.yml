@@ -9,4 +9,4 @@ issue_template:
     filename: "epic.md"
   - name: "🧩 Tarefa"
     about: "Descrever uma tarefa técnica, funcional ou de design"
-    filename: "tarefa_geral.md"
+    filename: "task.md"
