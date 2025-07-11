@@ -1,0 +1,28 @@
+.loginPageContainer {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.formSide {
+  flex: 1; /* Ocupa metade da tela */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f2f5; /* Cor de fundo de exemplo */
+}
+
+.infoSide {
+  flex: 1; /* Ocupa a outra metade */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #1e194d; /* Cor escura de exemplo */
+  color: white;
+}
+
+/* Continue estilizando os outros elementos... */
+.loginForm {
+  /* Estilos para o card de login */
+}
