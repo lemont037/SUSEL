@@ -1,0 +1,61 @@
+/* Para ser salvo em src/styles/Login.module.css */
+
+.loginPageContainer {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff; /* Fundo branco para a coluna do formulário */
+}
+
+.formSide {
+  flex: 1; /* Ocupa metade da tela */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #111827;
+  margin-bottom: 2rem; /* Cria um espaço entre o título e o card abaixo dele */
+}
+
+.infoSide {
+  flex: 1; /* Ocupa a outra metade */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #1e194d; /* Tom de roxo/azul escuro do figma */
+  color: white;
+  padding: 2rem; /* Adiciona um respiro nas laterais */
+  text-align: center;
+}
+
+.infoSide h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.infoSide p {
+  font-size: 1.25rem;
+  max-width: 400px;
+}
+
+.forgotPasswordLink {
+  width: 100%;             /* Garante que a div ocupe todo o espaço disponível */
+  text-align: right;       /* Alinha o conteúdo (o link) à direita */
+  margin-bottom: 1.5rem;   /* Adiciona um espaço antes do botão "Entrar" */
+}
+
+.forgotPasswordLink a {
+  font-size: 0.9rem;       /* Tamanho de fonte um pouco menor */
+  color: #374151;         /* Um tom de cinza escuro, similar ao dos labels */
+  text-decoration: none;   /* Remove o sublinhado padrão */
+}
+
+.forgotPasswordLink a:hover {
+  text-decoration: underline; /* Adiciona o sublinhado de volta ao passar o mouse */
+}

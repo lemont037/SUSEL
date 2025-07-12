@@ -1,9 +1,9 @@
-import Head from "next/head";
+import Head from "next/head"; // <-- Importação do Head que já existia
 import { useState } from 'react';
-import styles from '../styles/Login.module.css';
-import Button from '../components/Button';
-import InputField from '../components/InputField';
-import Card from '../components/Card';
+import styles from '../../styles/Login.module.css'; // Verifique se o nome do arquivo CSS está correto
+import Button from '../../components/Button';
+import InputField from '../../components/InputField';
+import Card from '../../components/Card';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');

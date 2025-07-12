@@ -1,6 +1,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --azul-primario: #190F6E;
+  --azul-primario-hover: #4338ca; /* Tom de roxo/azul escuro */
+  --azul-secundario: #B5C4FF;
+  --branco-primario: #EDEDED;
 }
 
 @media (prefers-color-scheme: dark) {

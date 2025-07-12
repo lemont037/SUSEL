@@ -1,0 +1,34 @@
+/* Para ser salvo em frontend/components/Button.module.css */
+
+.button {
+  width: 100%; /* Faz o botão ocupar a largura toda do seu container */
+  padding: 12px 20px;
+  border-radius: 8px; /* Bordas arredondadas */
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Efeito suave na troca de cor */
+  margin-top: 10px; /* Espaçamento entre os botões */
+}
+
+/* Variante Primária (Roxo escuro) */
+.primary {
+  background-color: var(--azul-primario); /* Tom de roxo/azul escuro */
+  color: var(--branco-primario);
+}
+
+.primary:hover {
+  background-color: var(--azul-primario-hover); /* Um pouco mais escuro ao passar o mouse */
+}
+
+/* Variante Secundária (Azul claro, com borda) */
+.secondary {
+  background-color: transparent;   /* Fundo transparente ("vazado") */
+  color: #4338ca;                 /* Cor do texto igual à cor primária */
+  border: 2px solid #4338ca;      /* Borda sólida com a cor primária */
+}
+
+.secondary:hover {
+  background-color: #f0f2ff; /* Um leve fundo ao passar o mouse para dar feedback */
+}
