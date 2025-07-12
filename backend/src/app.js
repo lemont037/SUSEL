@@ -1,9 +1,10 @@
 const express = require('express');
+const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
-
-app.use((req, res) => {
-    res.status(200).send('Test successful!');
-});
+app.use(express.static('src'));
+userRoutes(app);
+adminRoutes(app);
 
 module.exports = app;
