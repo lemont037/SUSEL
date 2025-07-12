@@ -1,0 +1,27 @@
+.inputGroup {
+  width: 100%;
+  margin-bottom: 20px; /* Espaço entre os campos de input */
+  display: flex;
+  flex-direction: column; /* Deixa o label em cima do input */
+}
+
+.inputGroup label {
+  font-weight: bold;
+  margin-bottom: 8px; /* Espaço entre o label e o input */
+  color: #333; /* Cor do texto do label */
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db; /* Borda cinza clara */
+  border-radius: 8px; /* Mesma borda dos botões */
+  font-size: 16px;
+  background-color: white;
+}
+
+.inputGroup input:focus {
+  outline: none; /* Remove a borda padrão do navegador */
+  border-color: #4338ca; /* Borda fica roxa quando o campo está selecionado */
+  box-shadow: 0 0 0 2px #c7d2fe; /* Efeito de "brilho" ao redor */
+}
