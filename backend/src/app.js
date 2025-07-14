@@ -4,6 +4,7 @@ const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
+app.use(express.json());
 
 userRoutes(app);
 adminRoutes(app);
