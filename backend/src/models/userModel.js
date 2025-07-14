@@ -1,41 +1,48 @@
-const users = [{
-    id: 1,
-    name: 'John Doe',
-    email: 'johnDoe@testmail.com',
-    password: 'password123',
-    role: 'admin'
-},{
-    id: 2,
-    name: 'Jane Smith',
-    email: 'janeSmith@testmail.com',
-    password: 'password456',
-    role: 'user'
-},{
-    id: 3,
-    name: 'Alice Johnson',
-    email: 'aliceJohnson@testmail.com',
-    password: 'password789',
-    role: 'user'
-}]
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const process = [{
-    id: 1,
-    name: 'Process 1',
-    status: 'active',
-    date: '2023-10-01',
-    subscribers : [2, 3]
-},{
-    id: 2,
-    name: 'Process 2',
-    status: 'inactive',
-    date: '2023-10-02',
-    subscribers : [3]
-},{
-    id: 3,
-    name: 'Process 3',
-    status: 'active',
-    date: '2023-10-03',
-    subscribers : [2]
-}]
+const userSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'user'
+    }
+});
 
-module.exports = { users, process };
+const processSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    status: {
+        type: String,
+        enum: ['active', 'inactive'],
+        default: 'active'
+    },
+    date: {
+        type: Date,
+        default: Date.now,
+    },
+    subscribers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
+});
+
+const User = mongoose.model('User', userSchema);
+const Process = mongoose.model('Process', processSchema);
+
+module.exports = { User, Process };
