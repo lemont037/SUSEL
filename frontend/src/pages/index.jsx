@@ -4,6 +4,7 @@ import styles from '../styles/Login.module.css';
 import Button from '../components/Button';
 import InputField from '../components/InputField';
 import Card from '../components/Card';
+import Link from 'next/link'; 
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -39,18 +40,20 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <div className={styles.forgotPasswordLink}>
-                <a href="#">Esqueceu sua senha?</a>
+                <Link href="/auth/forgot-password">Esqueceu sua senha?</Link>
               </div>
               <Button type="submit" variant="primary">
                 Entrar
               </Button>
             </form>
             <p className={styles.registerPrompt}>
-              Não tem uma conta? <a href="#">Cadastre-se</a>
+              Não tem uma conta? <a href="/auth/register">Cadastre-se</a>
             </p>
-            <Button variant="secondary">
-              Cadastre-se
-            </Button>
+            <Link href="/auth/register">
+              <Button variant="secondary">
+                Cadastre-se
+              </Button>
+            </Link>
           </Card>
         </div>
 

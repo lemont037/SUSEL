@@ -1,0 +1,53 @@
+.registerPageContainer {
+  background-color: #f0f2f5;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #1e194d;
+  padding: 1rem 2rem;
+}
+
+.logo {
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.formContainer {
+  background-color: var(--azul-secundario);
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.whatsappCheckbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  color: var(--azul-primario);
+}
+
+.whatsappCheckbox input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: var(--azul-primario);      
+  background-color: transparent !important; /* Força o fundo a ser transparente */
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1.5rem;
+}

@@ -1,5 +1,5 @@
 .card {
-  background-color: #B5C4FF; /* Tom de azul/lavanda bem claro */
+  background-color: var(--azul-secundario); /* Tom de azul/lavanda bem claro */
   padding: 40px 32px; /* Espaçamento interno generoso */
   border-radius: 16px; /* Bordas bem arredondadas */
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
