@@ -12,23 +12,26 @@
   margin-top: 10px; /* Espaçamento entre os botões */
 }
 
-/* Variante Primária (Roxo escuro) */
+/* Variante Primária (Texto branco com background azul escuro) */
 .primary {
   background-color: var(--azul-primario); /* Tom de roxo/azul escuro */
   color: var(--branco-primario);
 }
 
 .primary:hover {
-  background-color: var(--azul-primario-hover); /* Um pouco mais escuro ao passar o mouse */
+  background-color: var(--azul-primario-hover); 
+  color: var(--azul-primario); 
+  border: 2px solid var(--azul-primario); 
 }
 
-/* Variante Secundária (Azul claro, com borda) */
+/* Variante Secundária (Borda e texto azul escuro e background vazado) */
 .secondary {
-  background-color: transparent;   /* Fundo transparente ("vazado") */
-  color: #4338ca;                 /* Cor do texto igual à cor primária */
-  border: 2px solid #4338ca;      /* Borda sólida com a cor primária */
+  background-color: transparent;
+  color: var(--azul-primario);
+  border: 2px solid var(--azul-primario);
 }
 
 .secondary:hover {
-  background-color: #f0f2ff; /* Um leve fundo ao passar o mouse para dar feedback */
+  background-color: var(--azul-primario-hover); 
+  color: var(--azul-primario); 
 }

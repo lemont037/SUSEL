@@ -1,5 +1,3 @@
-/* Para ser salvo em src/styles/Login.module.css */
-
 .loginPageContainer {
   display: flex;
   width: 100vw;
@@ -18,8 +16,8 @@
 .loginTitle {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #111827;
-  margin-bottom: 2rem; /* Cria um espaço entre o título e o card abaixo dele */
+  color: var(--azul-primario);
+  margin-bottom: 2rem; 
 }
 
 .infoSide {
@@ -28,7 +26,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #1e194d; /* Tom de roxo/azul escuro do figma */
+  background-color: var(--azul-primario); 
   color: white;
   padding: 2rem; /* Adiciona um respiro nas laterais */
   text-align: center;
@@ -58,4 +56,11 @@
 
 .forgotPasswordLink a:hover {
   text-decoration: underline; /* Adiciona o sublinhado de volta ao passar o mouse */
+}
+
+.registerPrompt {
+  margin-top: 4rem; /* Espaço acima do texto de registro */
+  font-size: 0.9rem; /* Tamanho de fonte menor */
+  color: #374151; /* Cor do texto, similar ao dos labels */
+  text-align: center;
 }

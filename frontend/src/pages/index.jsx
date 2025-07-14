@@ -10,15 +10,15 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
 
   return (
-    <> {/* Usamos um Fragment (<>) para agrupar o Head e o div principal */}
+    <> 
       <Head>
-        <title>SUSEL - Login</title> {/* Mudei o título para ser mais específico */}
+        <title>SUSEL - Login</title> 
         <meta name="description" content="Sistema Unificado de Seleções" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" /> {/* Corrigi o caminho do ícone */}
+        <link rel="icon" href="/favicon.ico" /> 
       </Head>
 
-      <main className={styles.loginPageContainer}> {/* Usei <main> que é mais semântico */}
+      <main className={styles.loginPageContainer}> 
         <div className={styles.formSide}>
           <h2 className={styles.loginTitle}>Login</h2>
 
@@ -45,6 +45,9 @@ export default function LoginPage() {
                 Entrar
               </Button>
             </form>
+            <p className={styles.registerPrompt}>
+              Não tem uma conta? <a href="#">Cadastre-se</a>
+            </p>
             <Button variant="secondary">
               Cadastre-se
             </Button>
