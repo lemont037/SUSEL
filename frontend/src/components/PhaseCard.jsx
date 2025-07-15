@@ -1,5 +1,5 @@
 // Em src/components/PhaseCard.jsx
-import styles from './PhaseCard.module.css';
+import styles from '../styles/PhaseCard.module.css';
 import InputField from './InputField';
 import Button from './Button';
 

@@ -1,4 +1,5 @@
-import styles from './Button.module.css';
+import styles from '../styles/Button.module.css';
+import React from 'react';
 
 // Definimos os tipos de "props" que nosso botão aceita
 type ButtonProps = {

@@ -1,4 +1,4 @@
-import styles from './AttachmentItem.module.css';
+import styles from '../styles/AttachmentItem.module.css';
 
 export default function AttachmentItem({ attachment, onDelete }) {
   return (
