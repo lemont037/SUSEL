@@ -6,10 +6,23 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    cpf: {
+        type: String,
+        required: true,
+        unique: true
+    },
     email: {
         type: String,
         required: true,
         unique: true,
+    },
+    phone: {
+        type: String,
+        required: true,
+    },
+    isWhatsapp: {
+        type: Boolean,
+        default: false
     },
     password: {
         type: String,
@@ -22,8 +35,36 @@ const userSchema = new Schema({
     }
 });
 
+const PhaseSchema = new Schema({
+    title: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    startDate: {
+        type: Date,
+        default: Date.now
+    },
+    endDate: {
+        type: Date,
+        default: Date.now + 7 * 24 * 60 * 60 * 1000 // Default to one week later
+    }
+})
+
 const processSchema = new Schema({
-    name: {
+    title: {
+        type: String,
+        required: true,
+    },
+    code: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    description: {
         type: String,
         required: true,
     },
@@ -35,6 +76,10 @@ const processSchema = new Schema({
     date: {
         type: Date,
         default: Date.now,
+    },
+    phases: {
+        type: [PhaseSchema],
+        required: true,
     },
     subscribers: [{
         type: Schema.Types.ObjectId,
