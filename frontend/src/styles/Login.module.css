@@ -2,7 +2,7 @@
   display: flex;
   width: 100vw;
   height: 100vh;
-  background-color: #ffffff; /* Fundo branco para a coluna do formulário */
+  background-color: #ffffff; 
 }
 
 .formSide {
@@ -43,14 +43,14 @@
 }
 
 .forgotPasswordLink {
-  width: 100%;             /* Garante que a div ocupe todo o espaço disponível */
-  text-align: right;       /* Alinha o conteúdo (o link) à direita */
-  margin-bottom: 1.5rem;   /* Adiciona um espaço antes do botão "Entrar" */
+  width: 100%;             
+  text-align: right;       
+  margin-bottom: 1.5rem;   
 }
 
 .forgotPasswordLink a {
-  font-size: 0.9rem;       /* Tamanho de fonte um pouco menor */
-  color: #374151;         /* Um tom de cinza escuro, similar ao dos labels */
+  font-size: 0.9rem;       
+  color: #374151;         
   text-decoration: none;   /* Remove o sublinhado padrão */
 }
 
@@ -59,8 +59,9 @@
 }
 
 .registerPrompt {
-  margin-top: 4rem; /* Espaço acima do texto de registro */
-  font-size: 0.9rem; /* Tamanho de fonte menor */
-  color: #374151; /* Cor do texto, similar ao dos labels */
+  margin-top: 4rem; 
+  font-size: 0.9rem; 
+  color: #374151; 
   text-align: center;
+  text-decoration: underline;
 }

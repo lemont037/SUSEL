@@ -1,0 +1,39 @@
+.itemContainer {
+  display: flex;
+  align-items: center;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  padding: 0.75rem;
+  max-width: 400px; /* Largura do item */
+}
+.fileTypeBox {
+  background-color: #ef4444; /* Vermelho para PDF */
+  color: white;
+  font-weight: bold;
+  padding: 1.5rem 1rem;
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+.info {
+  flex-grow: 1; /* Faz esta seção ocupar o espaço restante */
+}
+.title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.actions button {
+  background: none;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+.deleteButton {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 1.25rem;
+  cursor: pointer;
+  margin-left: 1rem;
+}

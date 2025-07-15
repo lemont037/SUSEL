@@ -1,9 +1,9 @@
 
 import Head from "next/head";
 import { useState } from 'react';
-import Link from 'next/link'; // Importa o componente de Link do Next.js
-import styles from '../../styles/Login.module.css'; // Reutilizaremos o layout principal
-import customStyles from '../../styles/ForgotPassword.module.css'; // Estilos específicos para esta página
+import Link from 'next/link'; 
+import styles from '../../styles/Login.module.css'; 
+import customStyles from '../../styles/ForgotPassword.module.css'; 
 import Button from '../../components/Button';
 import InputField from '../../components/InputField';
 import Card from '../../components/Card';
@@ -23,7 +23,6 @@ export default function ForgotPasswordPage() {
         <div className={styles.formSide}>
           <h2 className={styles.loginTitle}>Redefinir senha</h2>
           <Card>
-            {/* Adicionamos um parágrafo de instrução */}
             <p className={customStyles.instructions}>
               Informe seu email cadastrado, para envio do código de verificação.
             </p>

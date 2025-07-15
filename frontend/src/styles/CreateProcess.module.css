@@ -1,0 +1,132 @@
+.adminContainer {
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e194d;
+  color: white;
+  padding: 1rem 2rem;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+}
+
+.userProfile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #eef2ff;
+}
+
+.content {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pageTitle {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: var(--azul-primario)
+}
+
+.section {
+  margin-bottom: 2rem;
+  color: var(--azul-primario);
+}
+
+.sectionTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--azul-primario);
+}
+
+.sectionContent {
+    background-color: var(--branco-primario);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.generalDataGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.textAreaWrapper label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: var(--azul-primario);
+}
+
+.textAreaWrapper textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    color: #111827;
+    background-color: white;
+}
+
+.textAreaWrapper textarea:focus {
+  outline: none;
+  border-color: #4338ca;
+  box-shadow: 0 0 0 2px #c7d2fe;
+}
+
+.fileUploadWrapper label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: var(--azul-primario);
+}
+
+.fileUploadBox {
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    background-color: #f0f2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.addButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: #10b981; /* Verde */
+  color: white;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.attachmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; 
+}
