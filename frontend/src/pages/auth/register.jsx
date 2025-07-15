@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useState } from 'react';
 import Link from 'next/link';
-import styles from '../../styles/Register.module.css'; // Usaremos um novo arquivo de estilo
+import styles from '../../styles/Register.module.css'; 
 import InputField from '../../components/InputField';
 import Button from '../../components/Button';
 

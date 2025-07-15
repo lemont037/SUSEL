@@ -1,5 +1,5 @@
 // Em frontend/components/Card.tsx
-import styles from './Card.module.css';
+import styles from '../styles/Card.module.css';
 
 // A única prop que ele precisa é 'children'
 type CardProps = {
