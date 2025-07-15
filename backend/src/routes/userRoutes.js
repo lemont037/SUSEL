@@ -3,7 +3,14 @@ const userController = require('../controllers/userController');
 module.exports = (app) => {
     app.get('/u/:uid/process', userController.getActiveProcess);
     app.get('/u/:uid/process/:pid',userController.getUserProcessById);
-    app.get('/u/:uid/config', userController.getUserInfo);
-    app.post('/auth/register', userController.createUser);
     app.post('/u/:uid/process/:pid/submit', userController.submitToProcess);
+    app.get('/u/:uid/config', userController.getUserInfo);
+    app.put('/u/:uid/config/edit', userController.updateUserInfo);
+    app.delete('/u/:uid/config/delete', userController.deleteUser);
+    
+    // Authentication routes
+    app.post('/auth/register', userController.createUser);
+    app.post('/auth/login', userController.loginUser);
+    app.post('/auth/forgot-password', userController.forgotPassword);
+    app.put('/auth/:uid/new-password', userController.resetPassword);
 }

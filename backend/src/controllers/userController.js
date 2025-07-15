@@ -82,6 +82,85 @@ const userController = {
             res.status(500).send('Internal server error');
         }
     },
+    loginUser: async (req, res) => {
+        try {
+            const { email, password } = req.body;
+            if (!email || !password) {
+                return res.status(400).send('Email and password are required');
+            }
+            const user = await User.findOne({ email, password });
+            if (!user) {
+                return res.status(401).send('Invalid email or password');
+            }
+            res.status(200).json({ message: 'Login successful', user });
+        } catch (error) {
+            console.error('Error logging in user:', error);
+            res.status(500).send('Internal server error');
+        }
+    },
+    forgotPassword: async (req, res) => {
+        try {
+            const { email } = req.body;
+            if (!email) {
+                return res.status(400).send('Email is required');
+            }
+            const user = await User.findOne({ email });
+            if (!user) {
+                return res.status(404).send('User not found');
+            }
+            return res.status(200).json(user);
+        } catch (error) {
+            console.error('Error in forgot password:', error);
+            res.status(500).send('Internal server error');
+        }
+    },
+    resetPassword: async (req, res) => {
+        try {
+            const userId = req.params.uid;
+            const { newPassword } = req.body;
+            if (!newPassword) {
+                return res.status(400).send('New password is required');
+            }
+            const user = await User.findByIdAndUpdate(userId, { password: newPassword }, { new: true });
+            if (!user) {
+                return res.status(404).send('User not found');
+            }
+            res.status(200).json({ message: 'Password reset successful', user });
+        } catch (error) {
+            console.error('Error resetting password:', error);
+            res.status(500).send('Internal server error');
+        }
+    },
+    updateUserInfo: async (req, res) => {
+        try {
+            const userId = req.params.uid;
+            const { name, email } = req.body;
+            if (!name || !email) {
+                return res.status(400).send('Name and email are required');
+            }
+            const updatedUser = await User.findByIdAndUpdate(userId, { name, email }, { new: true });
+            if (!updatedUser) {
+                return res.status(404).send('User not found');
+            }
+            res.status(200).json(updatedUser);
+        } catch (error) {
+            console.error('Error updating user info:', error);
+            res.status(500).send('Internal server error');
+        }
+    },
+    deleteUser: async (req, res) => {
+        try {
+            const userId = req.params.uid;
+            const deletedUser = await User.findByIdAndDelete(userId);
+            if (!deletedUser) {
+                return res.status(404).send('User not found');
+            }
+            res.status(200).json({ message: 'User deleted successfully' });
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            res.status(500).send('Internal server error');
+        }
+    },
     submitToProcess: async (req, res) => {
         try {
             const userId = req.params.uid;

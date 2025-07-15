@@ -37,6 +37,36 @@ const adminController = {
             console.error('Error creating process:', error);
             res.status(500).send('Internal server error');
         }
+    },
+    updateProcess: async (req, res) => {
+        try {
+            const processId = req.params.pid;
+            const { name } = req.body;
+            if (!name) {
+                return res.status(400).send('A name is required for the process');
+            }
+            const updatedProcess = await Process.findByIdAndUpdate(processId, { name }, { new: true });
+            if (!updatedProcess) {
+                return res.status(404).send('Process not found');
+            }
+            res.status(200).json(updatedProcess);
+        } catch (error) {
+            console.error('Error updating process:', error);
+            res.status(500).send('Internal server error');
+        }
+    },
+    deleteProcess: async (req, res) => {
+        try {
+            const processId = req.params.pid;
+            const deletedProcess = await Process.findByIdAndDelete(processId);
+            if (!deletedProcess) {
+                return res.status(404).send('Process not found');
+            }
+            res.status(200).json({ message: 'Process deleted successfully' });
+        } catch (error) {
+            console.error('Error deleting process:', error);
+            res.status(500).send('Internal server error');
+        }
     }
 };
 
