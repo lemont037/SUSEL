@@ -1,0 +1,63 @@
+.pageContainer {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    height: 100%;
+}
+
+.accordion {
+    margin-bottom: 1.5rem;
+}
+
+.accordionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.accordionHeader h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #4b5563;
+    margin: 0;
+}
+
+.accordionIcon {
+    transition: transform 0.3s ease-in-out;
+}
+
+.accordionContent {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordionContent.open {
+    max-height: 500px; 
+    padding-top: 0.5rem;
+}
+
+.processItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #1f2937;
+    transition: background-color 0.2s;
+}
+
+.processItem:hover {
+    background-color: #f9fafb;
+}
+
+.processItem span {
+    margin-left: auto;
+    font-size: 0.875rem;
+    color: #6b7280;
+}

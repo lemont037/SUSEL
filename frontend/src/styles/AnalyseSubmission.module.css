@@ -1,0 +1,77 @@
+.pageContainer {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.pageTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.mainGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.submissionDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.section {
+    width: 100%;
+}
+
+.sectionTitle {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.infoBox {
+    background-color: #f3f4f6;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.infoBox p {
+    margin: 0 0 0.5rem 0;
+    color: #4b5563;
+}
+
+.infoBox p strong {
+    color: #1f2937;
+}
+
+.processInfoCard {
+    background-color: #e0e7ff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    position: sticky;
+    top: 2rem;
+}
+
+.processInfoCard h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #3730a3;
+    margin: 0 0 1rem 0;
+}
+
+.actionButtons {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}

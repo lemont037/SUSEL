@@ -1,0 +1,157 @@
+.pageContainer {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    height: 100%;
+}
+
+.detailHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.detailTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.detailTitle span {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 400;
+    margin-top: 4px;
+}
+
+.detailActions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.detailDate {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.detailDescription {
+    margin: 1.5rem 0;
+    color: #4b5563;
+    line-height: 1.6;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.submissionListTitle {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+.submissionItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s;
+}
+
+.submissionItem:hover {
+    background-color: #f9fafb;
+}
+
+.submissionItem div {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.kebabButton {
+    background-color: #ffffff; 
+    color: #4A5568; 
+    border: 1px solid #e5e7eb; 
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.kebabButton:hover {
+    background-color: #f9fafb; 
+    border-color: #d1d5db;
+}
+
+.kebabMenu {
+    position: absolute;
+    right: 0;
+    margin-top: 0.5rem;
+    background-color: #2D3748;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10;
+    display: flex;
+    overflow: hidden;
+}
+
+.kebabMenuItem {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.kebabMenuItem:hover {
+    background-color: #4A5568;
+}
+
+.kebabMenuItem:first-child {
+    border-right: 1px solid #4A5568;
+}
+
+/* Estilos para o Modal */
+.modalOverlay {
+  position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 50;
+}
+.modalContent {
+  background-color: #e2e8f0; color: #1e293b; padding: 1.5rem; border-radius: 8px; max-width: 28rem; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+.modalContent h3 {
+  font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;
+}
+.modalActions {
+  display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;
+}
+.modalButton {
+  border: none; padding: 0.6rem 1.5rem; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s;
+}
+.modalButton.cancel {
+  background-color: #cbd5e1;
+}
+.modalButton.cancel:hover {
+  background-color: #94a3b8;
+}
+.modalButton.confirm {
+  background-color: #ef4444; color: white;
+}
+.modalButton.confirm:hover {
+  background-color: #dc2626;
+}

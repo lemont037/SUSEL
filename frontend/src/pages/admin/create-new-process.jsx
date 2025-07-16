@@ -37,7 +37,7 @@ export default function CreateNewProcessPage() {
     };
 
     const [attachments, setAttachments] = useState([
-        // Começamos com um item de exemplo
+        // Item de exemplo
         { id: 1, title: "Modelo de Declaração de Residência", type: "pdf" },
     ]);
 
@@ -111,7 +111,7 @@ export default function CreateNewProcessPage() {
             </Head>
 
             <div className={styles.adminContainer}>
-                {/* Header (podemos componentizar depois) */}
+                {/* Header */}
                 <header className={styles.header}>
                     <h1>SUSEL</h1>
                     <div className={styles.userProfile}></div>
