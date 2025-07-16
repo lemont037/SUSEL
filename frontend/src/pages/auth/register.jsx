@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useState } from 'react';
+import Router from 'next/router';
 import Link from 'next/link';
 import styles from '../../styles/Register.module.css'; 
 import InputField from '../../components/InputField';
@@ -13,6 +14,45 @@ export default function RegisterPage() {
   const [isWhatsapp, setIsWhatsapp] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (password !== confirmPassword) {
+      setError('As senhas não coincidem');
+      alert('As senhas não coincidem');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3001/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, cpf, email, phone, isWhatsapp, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erro ao cadastrar usuário');
+      }
+
+      const data = await response.json();
+      console.log('Usuário cadastrado com sucesso:', data);
+
+      Router.push('/'); // Redireciona para a página de login após o cadastro
+    } catch (error) {
+      console.error('Erro ao cadastrar usuário:', error);
+      setError(error.message || 'Ocorreu um erro inesperado');
+    }
+  };
+
+  const handleCancel = () => {
+    router.push('/');
+  };
 
   return (
     <>
@@ -47,8 +87,8 @@ export default function RegisterPage() {
         
 
         <div className={styles.actionButtons}>
-          <Button variant="primary">Cadastrar</Button>
-          <Button variant="secondary">Cancelar</Button>
+          <Button variant="primary" onClick={handleRegister}>Cadastrar</Button>
+          <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>
         </div>
       </div>
     </main>

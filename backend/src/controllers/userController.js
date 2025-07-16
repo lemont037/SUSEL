@@ -56,20 +56,20 @@ const userController = {
     },
     createUser: async (req, res) => {
         try {
-            const { name, email, password} = req.body;
+            const { name, cpf, email, phone, isWhatsapp, password} = req.body;
             const role = req.body.role;
-            if (!name || !email || !password) {
-                return res.status(400).send('Name, email, and password are required');
+            if (!name || !email || !password || !cpf) {
+                return res.status(400).json({message: 'Name, email, cpf and password are required'});
             } else {
                 User.findOne({ email: email })
                 .then(existingUser => {;
                     if (existingUser) {
                         console.error('User creation failed: Email already exists');
-                        return res.status(400).send('A user with this email already exists');
+                        return res.status(400).json({message: 'A user with this email already exists'});
                     } else {
                         if (role === 'admin') {
-                            var user = new User({ name, email, password, role: 'admin' }); 
-                        } else { var user = new User({ name, email, password}); }
+                            var user = new User({ name, cpf, email, phone, isWhatsapp, password, role: 'admin' }); 
+                        } else { var user = new User({ name, cpf, email, phone, isWhatsapp, password}); }
 
                         user.save();
                         console.log('User created successfully:', user);
@@ -86,16 +86,16 @@ const userController = {
         try {
             const { email, password } = req.body;
             if (!email || !password) {
-                return res.status(400).send('Email and password are required');
+                return res.status(400).json({message: 'Email and password are required'});
             }
             const user = await User.findOne({ email, password });
             if (!user) {
-                return res.status(401).send('Invalid email or password');
+                return res.status(401).json({message: 'Invalid email or password'});
             }
             res.status(200).json({ message: 'Login successful', user });
         } catch (error) {
             console.error('Error logging in user:', error);
-            res.status(500).send('Internal server error');
+            res.status(500).json({message: 'Internal server error'});
         }
     },
     forgotPassword: async (req, res) => {
