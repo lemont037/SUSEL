@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useState } from "react";
+import Router from "next/router";
 import styles from "../../styles/CreateProcess.module.css";
 import Button from "../../components/Button";
 import InputField from "../../components/InputField";
@@ -96,7 +97,7 @@ export default function CreateNewProcessPage() {
             const data = await response.json();
             console.log("Processo criado com sucesso:", data);
             alert("Processo criado com sucesso!");
-            //redirecionar para index.jsx
+            Router.push("/admin");
         } catch (error) {
             console.error("Erro ao criar o processo:", error);
             alert(`Erro ao criar o processo: ${error.message}`);
