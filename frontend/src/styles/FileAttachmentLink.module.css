@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaçamento entre os elementos */
+  padding: 8px 0; /* Padding vertical */
+  cursor: pointer;
+  transition: background-color 0.2s ease; /* Transição suave para o hover */
+  border-radius: 4px; /* Pequenas bordas arredondadas */
+}
+
+.container:hover {
+  background-color: var(--branco-primario); /* Fundo claro no hover */
+}
+
+.icon {
+  font-size: 20px;
+  color: var(--azul-primario); /* Cor do ícone */
+  flex-shrink: 0; /* Impede que o ícone diminua */
+}
+
+.fileName {
+  font-size: 16px;
+  color: var(--foreground); /* Cor do texto do nome do arquivo */
+  flex-grow: 1; /* Permite que o texto cresça */
+  white-space: nowrap; /* Impede que o texto quebre linha */
+  overflow: hidden; /* Esconde o que transborda */
+  text-overflow: ellipsis; /* Adiciona '...' se o texto for muito longo */
+}
+
+/* Estilo para o botão de download dentro do link */
+.downloadButton {
+  background-color: var(--azul-primario);
+  color: white;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  font-weight: bold;
+  flex-shrink: 0; /* Impede que o botão diminua */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.downloadButton:hover {
+  background-color: var(--azul-primario-hover); /* Cor de hover para o botão */
+}

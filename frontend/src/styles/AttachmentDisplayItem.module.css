@@ -1,0 +1,56 @@
+/* src/styles/AttachmentDisplayItem.module.css */
+
+.itemContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Espaça conteúdo e botões de ação */
+  margin-bottom: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0; /* Linha divisória suave */
+  color: var(--foreground);
+}
+
+.fileInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaçamento entre o box de tipo e o nome do arquivo */
+  flex-grow: 1; /* Permite que o nome do arquivo ocupe espaço */
+}
+
+.fileTypeBox {
+  background-color: #E24C4B; /* Cor vermelha para PDF, como no Figma */
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  flex-shrink: 0; /* Impede que o box encolha */
+}
+
+.fileName {
+  font-size: 16px;
+  white-space: nowrap; /* Impede que o texto quebre linha */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adiciona '...' se o texto for muito longo */
+}
+
+.actions {
+  display: flex;
+  gap: 10px; /* Espaçamento entre os botões de ação */
+  flex-shrink: 0;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--azul-primario); /* Cor dos ícones de ação */
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.actionButton:hover {
+  background-color: var(--branco-primario); /* Fundo claro no hover */
+}
