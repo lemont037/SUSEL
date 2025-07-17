@@ -3,8 +3,13 @@ const { Process } = require('../models/userModel');
 const adminController = {
     getAllProcesses: async (req, res) => {
         try {
-            const processes = await Process.find();
-            res.status(200).json(processes);
+            const activeProcesses = await Process.find({ status: 'active' });
+            const inactiveProcesses = await Process.find({ status: 'inactive' });
+
+            res.status(200).json({
+                activeProcesses,
+                inactiveProcesses
+            });
         } catch (error) {
             console.error('Error fetching all processes:', error);
             res.status(500).json({message: 'Internal server error'});
