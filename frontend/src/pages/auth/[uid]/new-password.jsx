@@ -1,10 +1,11 @@
 import Head from "next/head";
 import { useState, useEffect } from 'react';
-import styles from '../../styles/Login.module.css'; // Reutilizamos o layout principal
-import customStyles from '../../styles/NewPassword.module.css'; // Estilos específicos para esta página
-import Button from '../../components/Button';
-import InputField from '../../components/InputField';
-import Card from '../../components/Card';
+import Router from "next/router";
+import styles from '../../../styles/Login.module.css';
+import customStyles from '../../../styles/NewPassword.module.css';
+import Button from '../../../components/Button';
+import InputField from '../../../components/InputField';
+import Card from '../../../components/Card';
 
 export default function NewPasswordPage() {
   const [newPassword, setNewPassword] = useState('');
@@ -27,27 +28,43 @@ export default function NewPasswordPage() {
     setValidationState({ minLength, hasNumber, hasSpecialChar, passwordsMatch });
   }, [newPassword, confirmPassword]);
 
-  // Função para lidar com a submissão do formulário
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Impede o recarregamento padrão da página
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setSubmitError('');
 
-    // Verifica se todos os critérios são verdadeiros
     const { minLength, hasNumber, hasSpecialChar, passwordsMatch } = validationState;
 
     if (!passwordsMatch) {
       setSubmitError('Erro ao redefinir: As senhas não coincidem');
-      return; // Para a execução
+      return;
     }
 
     if (!minLength || !hasNumber || !hasSpecialChar) {
       setSubmitError('Erro ao redefinir: A senha não atende a todos os critérios');
-      return; // Para a execução
+      return;
     }
 
-    // Se tudo estiver certo:
-    setSubmitError(''); // Limpa qualquer erro anterior
-    alert('Senha redefinida com sucesso! (simulação)'); // Simula uma submissão bem-sucedida
-    // Aqui você enviaria os dados para o backend no futuro
+    try {
+      const response = await fetch(`http://localhost:3001/auth/${Router.query.uid}/new-password`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newPassword }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setSubmitError(errorData.message || 'Erro ao redefinir a senha. Tente novamente mais tarde.');
+        return;
+      }
+
+      Router.push('/');
+    }
+    catch (error) {
+      console.error('Erro ao redefinir a senha:', error);
+      setSubmitError('Ocorreu um erro ao redefinir a senha. Tente novamente mais tarde.');
+    }
   };
 
   return (
@@ -70,7 +87,6 @@ export default function NewPasswordPage() {
             <div className={customStyles.criteriaBox}>
               <p className={customStyles.criteriaTitle}>Critérios:</p>
               <ul>
-                {/* Adicionamos classes dinâmicas baseadas no estado da validação */}
                 <li className={validationState.minLength ? customStyles.valid : ''}>
                   Mínimo de 6 caracteres
                 </li>

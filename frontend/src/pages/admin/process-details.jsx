@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import styles from '../../styles/ProcessDetails.module.css';
+import styles from '../../styles/AdminProcessDetails.module.css';
 import ClientModal from '../../components/ClientModal';
 import { FileText, User } from 'lucide-react';
 

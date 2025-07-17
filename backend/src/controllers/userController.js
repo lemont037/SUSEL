@@ -102,16 +102,18 @@ const userController = {
         try {
             const { email } = req.body;
             if (!email) {
-                return res.status(400).send('Email is required');
+                return res.status(400).json({message: 'Email is required'});
             }
             const user = await User.findOne({ email });
+            console.log('User found:', user);
             if (!user) {
-                return res.status(404).send('User not found');
+                return res.status(404).json({message: 'User not found'});
             }
-            return res.status(200).json(user);
+            console.log('Sending user info:', user);
+            return res.status(200).json({ user });
         } catch (error) {
             console.error('Error in forgot password:', error);
-            res.status(500).send('Internal server error');
+            res.status(500).json({message: 'Internal server error'});
         }
     },
     resetPassword: async (req, res) => {
