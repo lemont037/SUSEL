@@ -70,9 +70,14 @@ const adminController = {
         }
     },
     deleteProcess: async (req, res) => {
+        console.log('Request to delete process received from: ', req.url);
+        console.log('Deleting process...', req.params);
+
         try {
             const processId = req.params.pid;
-            const deletedProcess = await Process.findByIdAndDelete(processId);
+            console.log('Deleting process with ID:', processId);
+
+            const deletedProcess = await Process.findByIdAndDelete({ _id: processId });
             if (!deletedProcess) {
                 return res.status(404).json('Process not found');
             }

@@ -64,7 +64,7 @@ export default function AdminIndexPage({ activeProcesses, inactiveProcesses }) {
                 <Accordion title="Processos em Andamento" defaultOpen={true}>
                     {activeProcesses.map((process) => (
                         <Link
-                            href={`/admin/process/?id=${process._id}`}
+                            href={`/admin/process-details?id=${process._id}`}
                             key={process._id}
                             legacyBehavior
                         >
@@ -79,7 +79,7 @@ export default function AdminIndexPage({ activeProcesses, inactiveProcesses }) {
                 <Accordion title="Processos Finalizados">
                     {inactiveProcesses.map((process) => (
                         <Link
-                            href={`/admin/process/?id=${process.id}`}
+                            href={`/admin/process-details?id=${process._id}`}
                             key={process._id}
                             legacyBehavior
                         >
