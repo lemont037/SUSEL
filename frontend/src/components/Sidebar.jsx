@@ -1,16 +1,26 @@
 // src/components/Sidebar.jsx
-import React from 'react';
-import styles from '../styles/Sidebar.module.css'; 
+import React from "react";
+import styles from "../styles/Sidebar.module.css";
 
-export default function Sidebar() {
-  return (
-    <aside className={styles.sidebar}>
-      <h2 className={styles.title}>Minhas atividades</h2>
-      <ul className={styles.menuList}>
-        <li className={styles.menuItem}>Item de Atividade 1</li>
-        <li className={styles.menuItem}>Item de Atividade 2</li>
-        <li className={styles.menuItem}>Item de Atividade 3</li>
-      </ul>
-    </aside>
-  );
+export default function Sidebar({ userProcesses, uid }) {
+    return (
+        <aside className={styles.sidebar}>
+            <h2 className={styles.sidebarTitle}>Minhas Inscrições</h2>
+            <ul className={styles.sidebarList}>
+                {userProcesses.length === 0 ? (
+                    <li className={styles.sidebarWarning}>
+                        Vocês não se inscreveu para nenhum processo ativo.
+                    </li>
+                ) : (
+                    userProcesses.map((userProcesses) => (
+                        <li key={userProcesses._id} className={styles.sidebarItem}>
+                            <a href={`/u/${uid}/process/${userProcesses._id}`}>
+                                {userProcesses.code} - {userProcesses.title}
+                            </a>
+                        </li>
+                    ))
+                )}
+            </ul>
+        </aside>
+    );
 }

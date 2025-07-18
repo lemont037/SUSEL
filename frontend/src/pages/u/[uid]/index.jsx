@@ -1,48 +1,41 @@
-// src/pages/user/index.jsx
-
 import React from "react";
 import Head from "next/head";
 
-// Importa os componentes diretamente
-import Header from "../../../components/Header"; // O componente Header (seu cabeçalho adaptado)
-import Sidebar from "../../../components/Sidebar"; // O componente Sidebar
-import ProcessListItem from "../../../components/ProcessListItem"; // O componente de item da lista
+import Header from "../../../components/Header";
+import Sidebar from "../../../components/Sidebar";
+import ProcessListItem from "../../../components/ProcessListItem";
+import styles from "../../../styles/UserIndex.module.css";
 
-// Estilos para o layout geral (movidos de UserLayout.jsx)
-const layoutContainerStyle = {
-    display: "flex",
-    flexDirection: "column", // Faz com que o Header fique em cima e o resto embaixo
-    minHeight: "100vh", // Garante que o layout ocupe a altura total da viewport
-    backgroundColor: "var(--background)", // Fundo claro ou escuro global
-};
+export async function getServerSideProps(context) {
+    try {
+        const { uid } = context.params;
 
-// Estilos para a área de conteúdo (sidebar + conteúdo principal)
-const contentAreaStyle = {
-    display: "flex",
-    flex: 1, // Faz com que ocupe o espaço restante verticalmente
-};
+        const response = await fetch(`http://localhost:3001/u/${uid}`);
+        const data = await response.json();
 
-// Estilos para o conteúdo principal da página
-const mainContentStyle = {
-    flex: 1, // Faz com que ocupe o espaço restante horizontalmente
-    padding: "20px",
-    overflowY: "auto", // Adiciona scroll se o conteúdo principal for muito grande
-};
 
-// Estilos para o título da lista (já estavam aqui)
-const pageTitleStyle = {
-    fontSize: "28px",
-    marginBottom: "20px",
-    color: "var(--foreground)", // Ou 'white', dependendo da sua última escolha
-};
 
-const processListStyle = {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-};
+        return {
+            props: {
+                uid: uid,
+                activeProcesses: data.activeProcesses || [],
+                userProcesses: data.userProcesses || [],
+            },
+        };
+    } catch (error) {
+        console.error("Error fetching processes:", error);
+        return {
+            props: {
+                uid: context.params.uid,
+                activeProcesses: [],
+                userProcesses: [],
+            },
+        };
+    }
+}
 
-export default function UserHome() {
+export default function UserHome({ uid, activeProcesses, userProcesses }) {
+
     return (
         <>
             <Head>
@@ -54,19 +47,28 @@ export default function UserHome() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            {/* AQUI ESTÁ A ESTRUTURA DO LAYOUT AGORA */}
-            <div style={layoutContainerStyle}>
-                <Header /> {/* O Header */}
-                <div style={contentAreaStyle}>
-                    <Sidebar /> {/* A Sidebar */}
-                    <main style={mainContentStyle}>
-                        {/* Conteúdo específico da página (Lista de Processos) */}
-                        <h1 style={pageTitleStyle}>Lista de Processos</h1>
+            <div className={styles.layoutContainer}>
+                <Header />
+                <div className={styles.contentArea}>
+                    <Sidebar userProcesses={userProcesses} uid={uid} />
+                    <main className={styles.mainContent}>
+                        <h1 className={styles.pageTitle}>Processos Ativos no Momento</h1>
 
-                        <div style={processListStyle}>
-                            <ProcessListItem title="Submissão 1" />
-                            <ProcessListItem title="Submissão 2" />
-                            <ProcessListItem title="Submissão 3" />
+                        <div className={styles.processList}>
+                            {activeProcesses.length === 0 ? (
+                                <p> Nenhum processo ativo no momento.</p>
+                            ) : (
+                                activeProcesses.map((process) => (
+                                    <ProcessListItem
+                                        key={process._id}
+                                        code={process.code}
+                                        title={process.title}
+                                        description={process.description}
+                                        endDate={process.endDate}
+                                        href={`/u/${uid}/process/${process._id}`}
+                                    />
+                                ))
+                            )}
                         </div>
                     </main>
                 </div>

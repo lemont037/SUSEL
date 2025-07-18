@@ -5,6 +5,7 @@
   --azul-primario-hover: #a8a5ea; 
   --azul-secundario: #B5C4FF;
   --branco-primario: #EDEDED;
+  --cinza-escuro: #6c6c6c;
 }
 
 @media (prefers-color-scheme: white) {

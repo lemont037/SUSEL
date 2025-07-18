@@ -1,7 +1,7 @@
 const userController = require('../controllers/userController');
 
 module.exports = (app) => {
-    app.get('/u/:uid/process', userController.getActiveProcess);
+    app.get('/u/:uid', userController.getActiveProcess);
     app.get('/u/:uid/process/:pid',userController.getUserProcessById);
     app.post('/u/:uid/process/:pid/submit', userController.submitToProcess);
     app.get('/u/:uid/config', userController.getUserInfo);

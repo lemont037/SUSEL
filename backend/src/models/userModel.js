@@ -46,11 +46,11 @@ const PhaseSchema = new Schema({
     },
     startDate: {
         type: Date,
-        default: Date.now
+        default: new Date(Date.now())
     },
     endDate: {
         type: Date,
-        default: Date.now + 7 * 24 * 60 * 60 * 1000 // Default to one week later
+        default: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // Default to one week later
     }
 })
 
@@ -75,7 +75,7 @@ const processSchema = new Schema({
     },
     date: {
         type: Date,
-        default: Date.now,
+        default: new Date(Date.now())
     },
     phases: {
         type: [PhaseSchema],

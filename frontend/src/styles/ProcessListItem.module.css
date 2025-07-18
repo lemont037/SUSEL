@@ -1,0 +1,48 @@
+.processItem {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  padding: 15px 0;
+  
+  border-bottom: 1px solid #e0e0e0;
+  color: var(--foreground);
+  
+  transition: background-color 0.2s ease;
+}
+
+.processItem:hover {
+  background-color: var(--branco-primario);
+}
+
+.itemIcon {
+  font-size: 20px;
+  margin-right: 10px;
+  color: var(--branco-primario);
+}
+
+.itemTitle {
+  font-size: 18px;
+  color: var(--foreground);
+}
+
+.itemDescription {
+  font-size: 14px;
+  color: var(--cinza-escuro);
+  max-width: 50%;
+  margin-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemText {
+  font-size: 16px;
+  color: var(--foreground); 
+}
+
+.itemDate {
+  font-size: 14px;
+  color: var(--cinza-escuro);
+  margin-left: auto;
+}
