@@ -1,9 +1,7 @@
-// Em src/pages/u/[uid]/delete-account.jsx
-
 import Head from "next/head";
 import { useState } from 'react';
 import Header from "../../../components/Header";
-import Sidebar from "../../../components/Sidebar";
+import SettingsSidebar from "../../../components/SettingSidebar";
 import InputField from '../../../components/InputField';
 import Button from '../../../components/Button';
 import styles from "../../../styles/DeleteAccount.module.css";
@@ -20,8 +18,7 @@ export default function DeleteAccountPage() {
       <div className={layoutStyles.layoutContainer}>
         <Header />
         <div className={layoutStyles.contentArea}>
-          {/* A CORREÇÃO ESTÁ AQUI: Passamos uma lista vazia para a Sidebar */}
-          <Sidebar userProcesses={[]} />
+          <SettingsSidebar />
 
           <main className={layoutStyles.mainContent}>
             <div className={styles.titleWrapper}>
