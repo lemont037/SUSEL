@@ -7,7 +7,7 @@ export default function PhaseItem({ phaseNumber, title, description, endDate }) 
       <h3 className={styles.phaseTitle}>Fase {phaseNumber}</h3>
       
       <p className={styles.azuli}>Título</p>
-      <p className={styles.content}>Lore Ipsum</p>
+      <p className={styles.content}>{title}</p>
       
       <p className={styles.azuli}>Descrição da Fase</p>
       <p className={styles.content}>{description}</p>

@@ -1,14 +1,13 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import styles from "../../styles/CreateProcess.module.css";
 import Button from "../../components/Button";
 import InputField from "../../components/InputField";
 import PhaseCard from "../../components/PhaseCard";
 
 export default function EditProcessPage({ initialProcessData }) {
-    const router = useRouter();
-    const { id } = router.query;
+    const { id } = Router.query;
 
     const [title, setTitle] = useState("");
     const [code, setCode] = useState("");
@@ -34,9 +33,8 @@ export default function EditProcessPage({ initialProcessData }) {
     const handleUpdateProcess = async () => {
         const processData = { title, code, description, phases };
 
-        // TODO: Conectar com a API do back-end para ATUALIZAR
         try {
-            const response = await fetch(`http://localhost:3001/admin/process/${id}`, {
+            const response = await fetch(`http://localhost:3001/admin/process/${id}/edit`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(processData),
@@ -45,7 +43,7 @@ export default function EditProcessPage({ initialProcessData }) {
             if (!response.ok) throw new Error("Falha ao atualizar o processo");
 
             alert("Processo atualizado com sucesso!");
-            router.push(`/admin/process-details?id=${id}`);
+            Router.push(`/admin/process-details?id=${id}`);
         } catch (error) {
             alert(`Erro: ${error.message}`);
         }
