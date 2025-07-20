@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import React from "react";
 import styles from "../styles/Sidebar.module.css";
 

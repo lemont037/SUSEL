@@ -5,7 +5,7 @@ import React from 'react';
 type ButtonProps = {
   children: React.ReactNode; // O texto ou ícone dentro do botão
   onClick?: () => void; // Uma função para ser chamada no clique
-  variant?: 'primary' | 'secondary'; // Nossos dois estilos de botão
+  variant?: 'primary' | 'secondary' | 'danger';
   type?: 'button' | 'submit' | 'reset';
 };
 

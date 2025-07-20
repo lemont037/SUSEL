@@ -1,4 +1,3 @@
-// src/components/PhaseItem.jsx
 import React from 'react';
 import styles from '../styles/PhaseItem.module.css'; // Importa o CSS Module
 

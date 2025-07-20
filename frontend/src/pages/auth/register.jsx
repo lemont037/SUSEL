@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
 import styles from '../../styles/Register.module.css'; 
@@ -16,14 +16,31 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
+  const [validationState, setValidationState] = useState({
+      minLength: false,
+      hasNumber: false,
+      hasSpecialChar: false,
+  });
+
+  useEffect(() => {
+      const minLength = password.length >= 6;
+      const hasNumber = /\d/.test(password);
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      setValidationState({ minLength, hasNumber, hasSpecialChar });
+  }, [password]);
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
 
     if (password !== confirmPassword) {
-      setError('As senhas não coincidem');
-      alert('As senhas não coincidem');
-      return;
+                setError('As senhas não coincidem');
+        return;
+    }
+
+    if (!validationState.minLength || !validationState.hasNumber || !validationState.hasSpecialChar) {
+        setError('A senha não atende a todos os critérios de segurança');
+        return;
     }
 
     try {
@@ -69,6 +86,7 @@ export default function RegisterPage() {
         </Link>
       </div>
       <div className={styles.formContainer}>
+        {error && <div className={styles.errorBox}>{error}</div>}  
         <div className={styles.formGrid}>
           <InputField label="Nome" type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
           <InputField label="CPF" type="text" id="cpf" value={cpf} onChange={(e) => setCpf(e.target.value)} />
@@ -83,6 +101,13 @@ export default function RegisterPage() {
         </div>
           
         <InputField label="Senha" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <div className={styles.criteriaBox}>
+            <ul>
+                <li className={validationState.minLength ? styles.valid : ''}>Mínimo de 6 caracteres</li>
+                <li className={validationState.hasNumber ? styles.valid : ''}>Conter 1 número</li>
+                <li className={validationState.hasSpecialChar ? styles.valid : ''}>Conter 1 caractere especial</li>
+            </ul>
+        </div>
         <InputField label="Confirme a sua senha" type="password" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
         
 

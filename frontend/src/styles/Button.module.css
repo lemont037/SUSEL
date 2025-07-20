@@ -35,3 +35,12 @@
   background-color: var(--azul-primario-hover); 
   color: var(--azul-primario); 
 }
+
+.danger {
+  background-color: #ef4444; /* Vermelho */
+  color: white;
+  border: 2px solid #ef4444;
+}
+.danger:hover {
+  background-color: #dc2626; /* Vermelho mais escuro */
+}
