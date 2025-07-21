@@ -20,11 +20,11 @@ export default function CreateNewProcessPage() {
     const [description, setDescription] = useState("");
 
     const [phases, setPhases] = useState([
-        { phaseId: 1 , title: '', description: '', startDate: '', endDate: ''}
+        { phaseId: 1 , title: '', description: '', startDate: null, endDate: null}
     ]);
 
     const handleAddPhase = () => {
-        setPhases([...phases, { phaseId: phases.length + 1, title: '', description: '', startDate: '', endDate: '' }]);
+        setPhases([...phases, { phaseId: phases.length + 1, title: '', description: '', startDate: null, endDate: null }]);
     };
 
     const handleDeletePhase = (idToDelete) => {

@@ -1,9 +1,8 @@
 import styles from "../styles/PhaseCard.module.css";
 import InputField from "./InputField";
-import Button from "./Button";
-
-// Placeholder para um futuro componente de Calendário
-const Calendar = () => <div className={styles.calendarPlaceholder}></div>;
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"
 
 export default function PhaseCard({
     phaseNumber,
@@ -11,6 +10,9 @@ export default function PhaseCard({
     onChange,
     onDelete,
 }) {
+    const [dateRange, setDateRange] = useState([null, null]);
+    const [startDate, endDate] = dateRange;
+
     const handleInputChange = (field, value) => {
         const updatedPhase = { ...phaseData, [field]: value };
         onChange(updatedPhase);
@@ -20,8 +22,6 @@ export default function PhaseCard({
             <div className={styles.header}>
                 <h4 className={styles.phaseTitle}>Fase {phaseNumber}</h4>
                 <div className={styles.controls}>
-                    <button>⬆️</button>
-                    <button>⬇️</button>
                     <button className={styles.deleteButton} onClick={onDelete}>
                         🗑️
                     </button>
@@ -54,12 +54,29 @@ export default function PhaseCard({
                 </div>
                 <div className={styles.duration}>
                     <label>Período de duração</label>
-                    <Calendar />
+                    <div className={styles.calendarPlaceholder}>
+                        <DatePicker
+                            selectsRange
+                            dateFormat="dd/MM/yyyy"
+                            isClearable
+                            placeholderText="Selecione a duração da Fase"
+                            startDate={startDate}
+                            endDate={endDate}
+                            onChange={(update) => {
+                                console.log("Selected Range: ", update)
+                                setDateRange(update);
+                                if (update[0]) {
+                                    console.log("Start date: ", update[0])
+                                    handleInputChange("startDate", update[0])
+                                }
+                                if (update[1]) {
+                                    console.log("End date: ", update[1])
+                                    handleInputChange("endDate", update[1])
+                                }
+                            }}
+                        />
+                    </div>
                 </div>
-            </div>
-            <div className={styles.formSection}>
-                <label>Formulário</label>
-                <Button variant="primary">Criar Formulário</Button>
             </div>
         </div>
     );

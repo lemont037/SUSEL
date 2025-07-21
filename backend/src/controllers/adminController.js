@@ -18,7 +18,7 @@ const adminController = {
     getProcessById: async (req, res) => {
         try {
             const processId = req.params.pid;
-            const processById = await Process.findById(processId);
+            const processById = await Process.findById(processId).populate('subscribers');
             if (!processById) {
                 res.status(404).json({message: 'Process not found'});
             } else {
@@ -55,11 +55,11 @@ const adminController = {
     updateProcess: async (req, res) => {
         try {
             const processId = req.params.pid;
-            const { name } = req.body;
-            if (!name) {
-                return res.status(400).json({message: 'A name is required for the process'});
+            const {  title, code, description, phases } = req.body;
+            if (!title || !code || !description || !phases) {
+                return res.status(400).json({message: 'Required fields for the process where left blank'});
             }
-            const updatedProcess = await Process.findByIdAndUpdate(processId, { name }, { new: true });
+            const updatedProcess = await Process.findByIdAndUpdate(processId, { title, code, description, phases }, { new: true });
             if (!updatedProcess) {
                 return res.status(404).json({message: 'Process not found'});
             }
