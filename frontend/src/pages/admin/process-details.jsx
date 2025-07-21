@@ -4,6 +4,7 @@ import styles from "../../styles/AdminProcessDetails.module.css";
 import ClientModal from "../../components/ClientModal";
 import PhaseItem from "../../components/PhaseItem";
 import { FileText, User } from "lucide-react";
+import { format } from "date-fns";
 
 export async function getServerSideProps(context) {
     const { id } = context.query;
@@ -73,7 +74,7 @@ export default function ProcessDetailsPage({ process }) {
                                 phaseNumber={index + 1}
                                 title={phase.title}
                                 description={phase.description}
-                                endDate={phase.endDate}
+                                endDate={format(phase.endDate, 'dd/MM/yyyy')}
                             />
                         ))
                     )}
