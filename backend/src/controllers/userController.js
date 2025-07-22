@@ -161,8 +161,6 @@ const userController = {
             if (!user) {
                 return res.status(404).json({message: 'User not found'})
             }
-
-            console.log(`Comparing passowrds: ${user.password} and ${password}`)
             if (user.password !== password) {
                 return res.status(401).json({message: 'Password does not match'})
             }

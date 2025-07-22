@@ -15,7 +15,6 @@ export async function getServerSideProps(context) {
         const response = await fetch(`http://localhost:3001/u/${uid}/config`);
         const user = await response.json();
 
-        console.log("Usuário em contexto:\n ",user)
         return {
             props: { user },
         };
