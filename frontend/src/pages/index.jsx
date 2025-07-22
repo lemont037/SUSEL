@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import InputField from "../components/InputField";
 import Card from "../components/Card";
 import Link from "next/link";
+import Image from "next/image"; 
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -105,6 +106,13 @@ export default function LoginPage() {
                 <div className={styles.infoSide}>
                     <h1>SUSEL</h1>
                     <p>Sistema Unificado de Seleções</p>
+                    <Image
+                        src="/images/icon-login.png" // <-- Caminho da sua imagem
+                        alt="Ilustração do Sistema SUSEL" // Texto para acessibilidade
+                        width={400} 
+                        height={300} 
+                        style={{ maxWidth: '100%', height: 'auto', display: 'block', margin: '20px auto' }}
+                    />
                     <p>Seu sistema de gerência para Processos Seletivos</p>
                 </div>
             </main>
