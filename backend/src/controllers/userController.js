@@ -43,13 +43,13 @@ const userController = {
             const userId = req.params.uid;
             const user = await User.findById(userId);
             if (!user) {
-                res.status(404).send('User not found');
+                res.status(404).jason({message: 'User not found'});
             } else {
                 res.status(200).json(user);
             }
         } catch (error) {
             console.error('Error fetching user info:', error);
-            res.status(500).send('Internal server error');
+            res.status(500).json({message: 'Internal server error'});
         }
     },
     createUser: async (req, res) => {
@@ -59,11 +59,15 @@ const userController = {
             if (!name || !email || !password || !cpf) {
                 return res.status(400).json({message: 'Name, email, cpf and password are required'});
             } else {
-                User.findOne({ email: email })
-                .then(existingUser => {;
+                User.findOne({
+                    $or: [
+                     {email: email },
+                     {cpf: cpf}
+                    ]
+                }).then(existingUser => {;
                     if (existingUser) {
-                        console.error('User creation failed: Email already exists');
-                        return res.status(400).json({message: 'A user with this email already exists'});
+                        console.error('User creation failed: Email or CPF already exists');
+                        return res.status(400).json({message: 'Já existe um usuário com esse E-mail ou CPF'});
                     } else {
                         if (role === 'admin') {
                             var user = new User({ name, cpf, email, phone, isWhatsapp, password, role: 'admin' }); 
@@ -151,10 +155,19 @@ const userController = {
     deleteUser: async (req, res) => {
         try {
             const userId = req.params.uid;
-            const deletedUser = await User.findByIdAndDelete(userId);
-            if (!deletedUser) {
-                return res.status(404).send('User not found');
+            const { password }= req.body
+
+            const user = await User.findById(userId)
+            if (!user) {
+                return res.status(404).json({message: 'User not found'})
             }
+
+            console.log(`Comparing passowrds: ${user.password} and ${password}`)
+            if (user.password !== password) {
+                return res.status(401).json({message: 'Password does not match'})
+            }
+
+            await User.findByIdAndDelete(userId);
             res.status(200).json({ message: 'User deleted successfully' });
         } catch (error) {
             console.error('Error deleting user:', error);
