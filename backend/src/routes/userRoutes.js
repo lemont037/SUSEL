@@ -14,6 +14,7 @@ module.exports = (app) => {
     app.post('/auth/login', userController.loginUser);
     app.post('/auth/forgot-password', userController.forgotPassword);
     app.put('/auth/:uid/new-password', authenticateToken, userController.resetPassword);
+    app.post('/auth/logout', userController.logOutUser);
 
     //New Token route
     app.post('/auth/refresh-token', userController.generateNewToken)

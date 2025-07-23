@@ -6,7 +6,10 @@ const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 
 userRoutes(app);
 adminRoutes(app);

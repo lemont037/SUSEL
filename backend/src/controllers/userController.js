@@ -125,6 +125,21 @@ const userController = {
                 expiresIn: '1h'
             })
             await User.findByIdAndUpdate(user._id, {refreshToken: refreshToken})
+
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                maxAge: 60*60*1000
+            });
+            
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                maxAge: 60*60*1000
+            });
+
             res.status(200).json({ message: 'Login successful', user, token, refreshToken });
         } catch (error) {
             console.error('Error logging in user:', error);
@@ -247,7 +262,7 @@ const userController = {
         }
     },
     generateNewToken: async (req, res) => {
-        const { refreshToken } = req.body;
+        const { refreshToken } = req.cookies.refreshToken;
 
         if (!refreshToken) {
             return res.status(400).json({message: 'Refresh token is required'})
@@ -272,11 +287,24 @@ const userController = {
                 expiresIn: config.jwtexpires
             })
 
+            res.cookie('token', newToken, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                maxAge: 60*60*1000
+            })
+
             res.status(200).json({message: 'New token created successfully', token: newToken})
         } catch (error) {
             console.error(`Error generating new acces token: ${error}`)
             return res.status(401).json({message: 'Invalid or expired refresh token. Please, login again'})
         }
+    },
+    logOutUser: (req, res) => {
+        res.clearCookie('token');
+        res.clearCookie('refreshToken');
+
+        res.status(202).json({message: "Logged out successfully"})
     }
 }
 
