@@ -12,6 +12,7 @@ export default function UserProfileForm({ user, onSave }) {
     const [birthDate, setBirthDate] = useState(user?.birthDate || ''); // Formato dd/mm/aaaa
     const [cpf, setCpf] = useState(user?.cpf || '');
     const [avatarSrc, setAvatarSrc] = useState(user?.avatarUrl || '');
+    const [formMessage, setFormMessage] = useState('');
 
     // Lógica para preencher os campos se os dados do usuário mudarem
     useEffect(() => {
@@ -36,16 +37,23 @@ export default function UserProfileForm({ user, onSave }) {
             avatarSrc,
         };
         onSave(updatedUser); // Chama a função onSave passada como prop
+        setFormMessage('Dados salvos com sucesso!');
     };
 
-    // Exemplo de função para edição (por enquanto, apenas um alerta)
     const handleEdit = (field) => {
-        alert(`Clicou em editar o campo: ${field}`);
+        setFormMessage(`A edição do campo "${field}" ainda não foi implementada.`);
     };
 
     return (
         <div className={styles.formContainer}>
             <h1 className={styles.title}>Edite seu Cadastro!</h1>
+            
+            {/* Bloco para renderizar a mensagem de erro/sucesso: */}
+            {formMessage && (
+                <div className={styles.errorBox}>
+                    {formMessage}
+                </div>
+            )}
 
             <div className={styles.contentColumns}>
                 {/* Coluna dos Campos do Formulário */}

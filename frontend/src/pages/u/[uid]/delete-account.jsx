@@ -29,6 +29,8 @@ export async function getServerSideProps(context) {
 export default function DeleteAccountPage({ user }) {
     const [password, setPassword] = useState("");
     const uid = user._id;
+    const [notification, setNotification] = useState({ message: '', type: '' });
+
     const handleDelete = async () => {
         try {
             const response = await fetch(
@@ -48,11 +50,15 @@ export default function DeleteAccountPage({ user }) {
                     `Erro ao excluir Usuário: ${errorData.message}`
                 );
             }
-            alert("Sua conta foi excluída!");
-            Router.push("/");
+            setNotification({ message: 'Sua conta foi excluída!', type: 'success' });
+            
+            // Redireciona para a página inicial após um delay
+            setTimeout(() => {
+                Router.push("/");
+            }, 3000); // Atraso de 3 segundos
         } catch (error) {
             console.error("Erro ao excluir usuário:", error);
-            alert(`${error.message}`);
+            setNotification({ message: error.message, type: 'error' });
         }
     };
 
@@ -67,6 +73,11 @@ export default function DeleteAccountPage({ user }) {
                     <SettingsSidebar />
 
                     <main className={layoutStyles.mainContent}>
+                        {notification.message && (
+                            <div className={notification.type === 'success' ? layoutStyles.successBox : layoutStyles.errorBox}>
+                                {notification.message}
+                            </div>
+                        )}
                         <div className={styles.titleWrapper}>
                             <h2 className={styles.title}>
                                 <span>Excluir</span> sua Conta

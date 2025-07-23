@@ -56,3 +56,13 @@
     /* Centraliza o botão salvar */
     margin-top: 30px;
 }
+.errorBox {
+  background-color: #fee2e2; /* Vermelho claro */
+  color: #b91c1c; /* Vermelho escuro para o texto */
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem; /* Espaço entre a mensagem e o conteúdo */
+  font-weight: bold;
+  text-align: center;
+}

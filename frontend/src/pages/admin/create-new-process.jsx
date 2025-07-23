@@ -18,7 +18,7 @@ export default function CreateNewProcessPage() {
     const [title, setTitle] = useState("");
     const [code, setCode] = useState("");
     const [description, setDescription] = useState("");
-
+    const [notification, setNotification] = useState({ message: '', type: '' });
     const [phases, setPhases] = useState([
         {
             phaseId: 1,
@@ -111,11 +111,17 @@ export default function CreateNewProcessPage() {
 
             const data = await response.json();
             console.log("Processo criado com sucesso:", data);
-            alert("Processo criado com sucesso!");
+            setNotification({ message: 'Processo criado com sucesso!', type: 'success' });
+
+            // Redireciona após um delay para o usuário ler a mensagem
+            setTimeout(() => {
+                Router.push("/admin");
+            }, 2000);
+
             Router.push("/admin");
         } catch (error) {
             console.error("Erro ao criar o processo:", error);
-            alert(`Erro ao criar o processo: ${error.message}`);
+            setNotification({ message: `Erro: ${error.message}`, type: 'error' });
         }
     };
 
@@ -137,6 +143,12 @@ export default function CreateNewProcessPage() {
                     <h2 className={styles.pageTitle}>
                         Criação Processo Seletivo
                     </h2>
+
+                    {notification.message && (
+                        <div className={notification.type === 'success' ? styles.successBox : styles.errorBox}>
+                            {notification.message}
+                        </div>
+                    )}
 
                     {/* Seção Dados Gerais */}
                     <section className={styles.section}>

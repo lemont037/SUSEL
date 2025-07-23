@@ -1,18 +1,12 @@
-// frontend/src/pages/u/[uid]/config.jsx
-
-import React from 'react';
+import React, { useState } from 'react'; 
 import Head from 'next/head';
-import { useRouter } from 'next/router'; // Para navegação após salvar, se quiser
-// --- IMPORTAÇÕES DE COMPONENTES ---
-import Header from '../../../components/Header'; // Componente de Cabeçalho
-import SettingsSidebar from '../../../components/SettingSidebar'; // A barra lateral de configurações
-import UserProfileForm from '../../../components/UserProfileForm'; // O formulário de perfil que acabamos de criar
-
-// Importa os estilos de layout que já existem em UserIndex.module.css (usados em delete-account.jsx)
+import { useRouter } from 'next/router'; 
+import Header from '../../../components/Header'; 
+import SettingsSidebar from '../../../components/SettingSidebar';
+import UserProfileForm from '../../../components/UserProfileForm';
 import layoutStyles from '../../../styles/UserIndex.module.css';
 
 // --- FUNÇÃO PARA BUSCAR DADOS DO USUÁRIO NO SERVIDOR (getServerSideProps) ---
-// Com dados mockados para visualização do frontend
 export async function getServerSideProps(context) {
     const { uid } = context.params;
 
@@ -22,7 +16,7 @@ export async function getServerSideProps(context) {
         name: "Nome e Sobrenome Exemplo",
         email: "exemplo@email.com",
         phone: "+55 (11) 99999-9999",
-        birthDate: "15/05/1990", // dd/mm/aaaa
+        birthDate: "15/05/1990", 
         cpf: "123.456.789-00",
         avatarUrl: "/icon-login.png"
     };
@@ -60,10 +54,17 @@ export default function UserConfigPage({ user }) {
     const router = useRouter();
     // const { uid } = router.query; // uid já vem em user._id, se você precisar
 
+    const [notification, setNotification] = useState({ message: '', type: '' });
+
     // Função para lidar com o salvamento dos dados do perfil
     const handleSaveUserProfile = (updatedUser) => {
         console.log('SIMULAÇÃO: Dados do usuário a serem salvos:', updatedUser);
-        alert('SIMULAÇÃO: Dados salvos com sucesso!');
+        setNotification({ message: 'Dados salvos com sucesso!', type: 'success' });
+
+        // Remove a notificação após alguns segundos
+        setTimeout(() => {
+            setNotification({ message: '', type: '' });
+        }, 3000); // A mensagem some após 3 segundos
         // AQUI você faria a requisição REAL para o seu backend (PATCH/PUT)
         // Exemplo: fetch(`http://localhost:3001/u/${updatedUser._id}/config`, { method: 'PATCH', body: JSON.stringify(updatedUser), headers: { 'Content-Type': 'application/json' }});
     };
@@ -89,6 +90,11 @@ export default function UserConfigPage({ user }) {
 
                     {/* Área de conteúdo principal */}
                     <main className={layoutStyles.mainContent}>
+                        {notification.message && (
+                            <div className={notification.type === 'success' ? layoutStyles.successBox : layoutStyles.errorBox}>
+                                {notification.message}
+                            </div>
+                        )}
                         {/* O UserProfileForm abrange todo o conteúdo da direita */}
                         <UserProfileForm
                             user={user} // Passa os dados do usuário (mockados ou reais)
