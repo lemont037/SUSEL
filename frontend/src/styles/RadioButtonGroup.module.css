@@ -1,0 +1,40 @@
+.groupContainer {
+    margin-bottom: 20px;
+}
+
+.groupLabel {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--foreground);
+    margin-bottom: 10px;
+    display: block;
+    /* Garante que o label ocupe sua própria linha */
+}
+
+.optionsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    /* Permite que as opções quebrem linha */
+    gap: 15px 25px;
+}
+
+.radioOption {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 15px;
+    color: var(--foreground);
+}
+
+.radioOption input[type="radio"] {
+    margin-right: 8px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--azul-primario);
+    /* Cor quando selecionado */
+    cursor: pointer;
+}
+
+.radioOption label {
+    cursor: pointer;
+}

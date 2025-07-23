@@ -1,0 +1,24 @@
+.formSection {
+    padding: 15px;
+    border: 1px solid var(--branco-primario);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background-color: #eeecec;
+}
+
+.subSectionTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--azul-primario);
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--azul-secundario);
+}
+
+.inputGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* Colunas responsivas */
+    gap: 20px;
+    margin-bottom: 20px;
+}

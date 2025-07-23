@@ -1,0 +1,46 @@
+.fileItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Espaça o nome do arquivo e o botão de lixeira */
+    padding: 8px 0;
+    border-bottom: 1px solid var(--branco-primario);
+    color: var(--foreground);
+    font-size: 15px;
+}
+
+.fileInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-grow: 1;
+    /* Permite que o nome do arquivo ocupe espaço */
+}
+
+.fileIcon {
+    font-size: 18px;
+    color: var(--azul-primario);
+    flex-shrink: 0;
+}
+
+.fileName {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Adiciona '...' se o nome do arquivo for muito longo */
+}
+
+.deleteButton {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #E24C4B;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.deleteButton:hover {
+    background-color: var(--branco-primario);
+}

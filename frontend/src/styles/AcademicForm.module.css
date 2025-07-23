@@ -1,0 +1,10 @@
+.formContentContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    /* Espaçamento entre as sub-seções do formulário */
+}
+
+.inputFieldContainer {
+    margin-bottom: 20px;
+}

@@ -1,0 +1,56 @@
+.dropZone {
+    border: 2px dashed var(--azul-secundario);
+    /* Borda tracejada */
+    border-radius: 8px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    background-color: white;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    margin-bottom: 25px;
+    /* Espaço abaixo da zona de drop */
+}
+
+.dropZone:hover,
+.dropZone.dragOver {
+    /* Estilo quando um arquivo está sendo arrastado sobre a zona */
+    background-color: var(--branco-primario);
+    /* Fundo um pouco mais claro no hover/drag */
+    border-color: var(--azul-primario);
+    /* Borda mais escura */
+}
+
+.uploadIcon {
+    font-size: 40px;
+    color: var(--azul-primario);
+    /* Cor do ícone de upload */
+    margin-bottom: 10px;
+}
+
+.uploadText {
+    font-size: 16px;
+    color: var(--foreground);
+}
+
+.uploadText strong {
+    color: var(--azul-primario);
+    /* Cor para "Procurar" */
+}
+
+.fileInput {
+    display: none;
+    /* Esconde o input de arquivo padrão */
+}
+
+.uploadedFilesTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--azul-primario);
+    margin-bottom: 15px;
+}
+
+.filesList {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
