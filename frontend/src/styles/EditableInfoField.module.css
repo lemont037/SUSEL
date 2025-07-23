@@ -1,0 +1,45 @@
+.fieldContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    /* Espaço abaixo de cada campo */
+}
+
+.label {
+    font-size: 15px;
+    color: var(--foreground);
+    /* Cor do texto do label */
+    margin-bottom: 5px;
+    font-weight: bold;
+    /* Label em negrito */
+}
+
+.contentWrapper {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    /* Fundo branco do campo de display */
+    border-radius: 8px;
+    padding: 10px 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    /* Sombra suave */
+    gap: 10px;
+    /* Espaço entre o valor e o ícone */
+}
+
+.value {
+    flex-grow: 1;
+    /* Permite que o valor ocupe o espaço */
+    font-size: 16px;
+    color: var(--foreground);
+}
+
+.editIcon {
+    font-size: 18px;
+    /* Tamanho do ícone de lápis */
+    color: var(--azul-primario);
+    /* Cor azul do ícone */
+    cursor: pointer;
+    flex-shrink: 0;
+    /* Impede que o ícone diminua */
+}

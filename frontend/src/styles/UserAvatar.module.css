@@ -1,0 +1,36 @@
+.avatarContainer {
+    width: 180px;
+    /* Diâmetro do círculo do avatar, ajuste se necessário */
+    height: 180px;
+    border-radius: 50%;
+    /* Faz o container ser circular */
+    background-color: var(--branco-primario);
+    /* Fundo claro para o círculo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* Garante que a imagem ou ícone não transborde */
+    border: 4px solid white;
+    /* Borda branca como no Figma */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    flex-shrink: 0;
+    /* Impede que o avatar diminua em layouts flexíveis */
+}
+
+.userIcon {
+    font-size: 80px;
+    /* Tamanho do ícone de usuário dentro do círculo */
+    color: var(--azul-secundario);
+    /* Cor do ícone, um tom claro */
+}
+
+.avatarImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Garante que a imagem preencha o círculo */
+    border-radius: 50%;
+    /* Garante que a imagem seja circular */
+}
