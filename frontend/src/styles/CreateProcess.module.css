@@ -113,6 +113,9 @@
 }
 
 .addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -123,6 +126,7 @@
   line-height: 1;
   cursor: pointer;
   margin-top: 1rem;
+  padding-bottom: 0.4rem;
 }
 
 .attachmentsList {

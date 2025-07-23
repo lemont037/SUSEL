@@ -19,12 +19,34 @@ export default function EditProcessPage({ initialProcessData }) {
             setTitle(initialProcessData.title);
             setCode(initialProcessData.code);
             setDescription(initialProcessData.description);
-            setPhases(initialProcessData.phases.map((p, i) => ({ ...p, phaseId: i + 1 })));
+            setPhases(
+                initialProcessData.phases.map((p, i) => ({
+                    ...p,
+                    phaseId: i + 1,
+                }))
+            );
         }
     }, [initialProcessData]);
 
+    const handleAddPhase = () => {
+        setPhases([
+            ...phases,
+            {
+                phaseId: phases.length + 1,
+                title: "",
+                description: "",
+                startDate: null,
+                endDate: null,
+            },
+        ]);
+    };
+
+    const handleDeletePhase = (idToDelete) => {
+        setPhases(phases.filter((phase) => phase.phaseId !== idToDelete));
+    };
+
     const handleUpdatePhase = (phaseId, updatedData) => {
-        const newPhases = phases.map(phase =>
+        const newPhases = phases.map((phase) =>
             phase.phaseId === phaseId ? { ...phase, ...updatedData } : phase
         );
         setPhases(newPhases);
@@ -34,11 +56,14 @@ export default function EditProcessPage({ initialProcessData }) {
         const processData = { title, code, description, phases };
 
         try {
-            const response = await fetch(`http://localhost:3001/admin/process/${id}/edit`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(processData),
-            });
+            const response = await fetch(
+                `http://localhost:3001/admin/process/${id}/edit`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(processData),
+                }
+            );
 
             if (!response.ok) throw new Error("Falha ao atualizar o processo");
 
@@ -52,16 +77,40 @@ export default function EditProcessPage({ initialProcessData }) {
     return (
         <>
             <Head>
-                <title>SUSEL - Editando: {initialProcessData?.title || 'Processo'}</title>
+                <title>
+                    SUSEL - Editando: {initialProcessData?.title || "Processo"}
+                </title>
             </Head>
             <main className={styles.content}>
                 <h2 className={styles.pageTitle}>Edição Processo Seletivo</h2>
 
                 <section className={styles.section}>
                     <h3 className={styles.sectionTitle}>Dados gerais</h3>
-                    <InputField label="Título" id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-                    <InputField label="Código do Edital" id="code" type="text" value={code} onChange={(e) => setCode(e.target.value)} />
-                    <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} rows={5}></textarea>
+                    <InputField
+                        label="Título"
+                        id="title"
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    <InputField
+                        label="Código do Edital"
+                        id="code"
+                        type="text"
+                        value={code}
+                        onChange={(e) => setCode(e.target.value)}
+                    />
+                    <div className={styles.textAreaWrapper}>
+                        <label htmlFor="description">
+                            Descrição do Processo
+                        </label>
+                        <textarea
+                            id="description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            rows={5}
+                        ></textarea>
+                    </div>
                 </section>
 
                 <section className={styles.section}>
@@ -71,16 +120,27 @@ export default function EditProcessPage({ initialProcessData }) {
                             key={phase.phaseId}
                             phaseNumber={index + 1}
                             phaseData={phase}
-                            onChange={(updated) => handleUpdatePhase(phase.phaseId, updated)}
-                            // onDelete pode ser adicionado aqui se necessário
+                            onChange={(updated) =>
+                                handleUpdatePhase(phase.phaseId, updated)
+                            }
+                            onDelete={() => handleDeletePhase(phase.phaseId)}
                         />
                     ))}
-                    {/* Botão de adicionar fase pode ser adicionado aqui */}
+                    <button
+                        className={styles.addButton}
+                        onClick={handleAddPhase}
+                    >
+                        +
+                    </button>
                 </section>
 
                 <div className={styles.actionButtons}>
-                    <Button variant="primary" onClick={handleUpdateProcess}>Atualizar</Button>
-                    <Button variant="secondary" onClick={() => router.back()}>Cancelar</Button>
+                    <Button variant="primary" onClick={handleUpdateProcess}>
+                        Atualizar
+                    </Button>
+                    <Button variant="secondary" onClick={() => router.back()}>
+                        Cancelar
+                    </Button>
                 </div>
             </main>
         </>
@@ -91,7 +151,9 @@ export default function EditProcessPage({ initialProcessData }) {
 export async function getServerSideProps(context) {
     const { id } = context.query;
     try {
-        const response = await fetch(`http://localhost:3001/admin/process/${id}`);
+        const response = await fetch(
+            `http://localhost:3001/admin/process/${id}`
+        );
         if (!response.ok) return { notFound: true };
         const initialProcessData = await response.json();
         return { props: { initialProcessData } };
