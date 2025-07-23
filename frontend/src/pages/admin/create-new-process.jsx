@@ -99,7 +99,7 @@ export default function CreateNewProcessPage() {
                         phases: cleanPhases,
                         //attachments
                     }),
-                    credentials: "include"
+                    credentials: "include",
                 }
             );
 

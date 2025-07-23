@@ -9,8 +9,8 @@ export async function getServerSideProps(context) {
         const response = await fetch("http://localhost:3001/admin", {
             method: "GET",
             headers: {
-                Cookies: context.req.headers.cookie || ""
-            }
+                Cookies: context.req.headers.cookie || "",
+            },
         });
         const data = await response.json();
 
