@@ -3,6 +3,10 @@ const { Process } = require('../models/userModel');
 const adminController = {
     getAllProcesses: async (req, res) => {
         try {
+            if (req.user.role !== 'admin') {
+                return res.status(403).json({message: "Unauthorized"})
+            }
+
             const activeProcesses = await Process.find({ status: 'active' });
             const inactiveProcesses = await Process.find({ status: 'inactive' });
 
@@ -17,6 +21,10 @@ const adminController = {
     },
     getProcessById: async (req, res) => {
         try {
+            if (req.user.role !== 'admin') {
+                return res.status(403).json({message: "Unauthorized"})
+            }
+
             const processId = req.params.pid;
             const processById = await Process.findById(processId).populate('subscribers');
             if (!processById) {
@@ -31,6 +39,10 @@ const adminController = {
     },
     createProcess: async (req, res) => {
         try {
+            if (req.user.role !== 'admin') {
+                return res.status(403).json({message: "Unauthorized"})
+            }
+
             const { title, code, description, status, date, phases, subscribers } = req.body;
             if (!title || !code || !description || !phases) {
                 return res.status(400).json({message: 'Required fileds for creating process were left blank'});
@@ -54,6 +66,10 @@ const adminController = {
     },
     updateProcess: async (req, res) => {
         try {
+            if (req.user.role !== 'admin') {
+                return res.status(403).json({message: "Unauthorized"})
+            }
+
             const processId = req.params.pid;
             const {  title, code, description, phases } = req.body;
             if (!title || !code || !description || !phases) {
@@ -70,10 +86,11 @@ const adminController = {
         }
     },
     deleteProcess: async (req, res) => {
-        console.log('Request to delete process received from: ', req.url);
-        console.log('Deleting process...', req.params);
-
         try {
+            if (req.user.role !== 'admin') {
+                return res.status(403).json({message: "Unauthorized"})
+            }
+
             const processId = req.params.pid;
             console.log('Deleting process with ID:', processId);
 
