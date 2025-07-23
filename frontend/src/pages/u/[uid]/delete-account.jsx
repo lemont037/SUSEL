@@ -12,7 +12,12 @@ export async function getServerSideProps(context) {
     try {
         const { uid } = context.params;
 
-        const response = await fetch(`http://localhost:3001/u/${uid}/config`);
+        const response = await fetch(`http://localhost:3001/u/${uid}/config`, {
+            method: "GET",
+            headers: {
+                Cookies: context.req.headers.cookie || "",
+            },
+        });
         const user = await response.json();
 
         return {
@@ -39,6 +44,7 @@ export default function DeleteAccountPage({ user }) {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({ password }),
+                    credentials: "include",
                 }
             );
 

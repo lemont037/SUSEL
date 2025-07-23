@@ -4,9 +4,14 @@ import Link from "next/link";
 import styles from "../../styles/AdminIndex.module.css";
 import { ChevronDown, FileText } from "lucide-react";
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
     try {
-        const response = await fetch("http://localhost:3001/admin");
+        const response = await fetch("http://localhost:3001/admin", {
+            method: "GET",
+            headers: {
+                Cookies: context.req.headers.cookie || ""
+            }
+        });
         const data = await response.json();
 
         return {

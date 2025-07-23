@@ -51,6 +51,7 @@ export default function NewPasswordPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ newPassword }),
+        credentials: "include"
       });
 
       if (!response.ok) {

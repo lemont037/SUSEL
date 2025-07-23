@@ -62,6 +62,7 @@ export default function EditProcessPage({ initialProcessData }) {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(processData),
+                    credentials: "include"
                 }
             );
 
@@ -147,13 +148,17 @@ export default function EditProcessPage({ initialProcessData }) {
     );
 }
 
-// TODO: Conectar com a API do back-end
 export async function getServerSideProps(context) {
     const { id } = context.query;
     try {
         const response = await fetch(
             `http://localhost:3001/admin/process/${id}`
-        );
+        , {
+            method: "GET",
+            headers: {
+                Cookie: context.req.headers.cookie || ""
+            }
+        });
         if (!response.ok) return { notFound: true };
         const initialProcessData = await response.json();
         return { props: { initialProcessData } };

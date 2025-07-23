@@ -10,10 +10,14 @@ export async function getServerSideProps(context) {
     try {
         const { uid } = context.params;
 
-        const response = await fetch(`http://localhost:3001/u/${uid}`);
+        const response = await fetch(`http://localhost:3001/u/${uid}`, {
+            method: 'GET',
+            headers: {
+                Cookie: context.req.headers.cookie || "",
+            }
+        });
+        
         const data = await response.json();
-
-
 
         return {
             props: {

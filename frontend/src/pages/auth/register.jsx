@@ -50,6 +50,7 @@ export default function RegisterPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name, cpf, email, phone, isWhatsapp, password }),
+        credentials: "include"
       });
 
       if (!response.ok) {

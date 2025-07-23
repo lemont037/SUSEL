@@ -12,7 +12,12 @@ export async function getServerSideProps(context) {
     try {
         const response = await fetch(
             `http://localhost:3001/admin/process/${id}`
-        );
+        , {
+            method: "GET",
+            headers: {
+                Cookie: context.req.headers.cookie || ""
+            }
+        });
         const process = await response.json();
         if (!process) {
             return { props: { process: null } };
@@ -31,8 +36,6 @@ export default function ProcessDetailsPage({ process }) {
     if (!process) {
         return <div>Processo não encontrado.</div>;
     }
-
-    console.log("Process Details:", process);
 
     return (
         <>
