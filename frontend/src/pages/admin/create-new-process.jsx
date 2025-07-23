@@ -20,11 +20,26 @@ export default function CreateNewProcessPage() {
     const [description, setDescription] = useState("");
 
     const [phases, setPhases] = useState([
-        { phaseId: 1 , title: '', description: '', startDate: null, endDate: null}
+        {
+            phaseId: 1,
+            title: "",
+            description: "",
+            startDate: null,
+            endDate: null,
+        },
     ]);
 
     const handleAddPhase = () => {
-        setPhases([...phases, { phaseId: phases.length + 1, title: '', description: '', startDate: null, endDate: null }]);
+        setPhases([
+            ...phases,
+            {
+                phaseId: phases.length + 1,
+                title: "",
+                description: "",
+                startDate: null,
+                endDate: null,
+            },
+        ]);
     };
 
     const handleDeletePhase = (idToDelete) => {
@@ -32,9 +47,9 @@ export default function CreateNewProcessPage() {
     };
 
     const handleUpdatePhase = (phaseId, updatedData) => {
-      const newPhases = [...phases];
-      newPhases[phaseId - 1] = updatedData;
-      setPhases(newPhases);
+        const newPhases = [...phases];
+        newPhases[phaseId - 1] = updatedData;
+        setPhases(newPhases);
     };
 
     const [attachments, setAttachments] = useState([
@@ -68,7 +83,7 @@ export default function CreateNewProcessPage() {
             startDate: phase.startDate,
             endDate: phase.endDate,
         }));
-  
+
         try {
             const response = await fetch(
                 "http://localhost:3001/admin/new-process",
@@ -178,8 +193,12 @@ export default function CreateNewProcessPage() {
                                 key={phase.phaseId}
                                 phaseNumber={phase.phaseId}
                                 phaseData={phase}
-                                onDelete={() => handleDeletePhase(phase.phaseId)}
-                                onChange={(updated) => handleUpdatePhase(phase.phaseId, updated)}
+                                onDelete={() =>
+                                    handleDeletePhase(phase.phaseId)
+                                }
+                                onChange={(updated) =>
+                                    handleUpdatePhase(phase.phaseId, updated)
+                                }
                             />
                         ))}
                         <button
