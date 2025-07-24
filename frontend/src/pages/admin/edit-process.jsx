@@ -6,6 +6,36 @@ import Button from "../../components/Button";
 import InputField from "../../components/InputField";
 import PhaseCard from "../../components/PhaseCard";
 
+export async function getServerSideProps(context) {
+    const { id } = context.query;
+
+    try {
+        const response = await fetch(
+            `http://localhost:3001/admin/process/${id}`,
+            {
+                method: "GET",
+                headers: {
+                    Cookie: context.req.headers.cookie || "",
+                },
+            }
+        );
+
+        if (response.status === 401 || response.status === 403) {
+            return {
+                redirect: {
+                    destination: "/unauthorized",
+                    permanent: false,
+                },
+            };
+        } else if (!response.ok) return { notFound: true };
+        const initialProcessData = await response.json();
+        return { props: { initialProcessData } };
+    } catch (error) {
+        console.error(`Could not fetch process ${id} for editing:`, error);
+        return { notFound: true };
+    }
+}
+
 export default function EditProcessPage({ initialProcessData }) {
     const { id } = Router.query;
 
@@ -139,32 +169,11 @@ export default function EditProcessPage({ initialProcessData }) {
                     <Button variant="primary" onClick={handleUpdateProcess}>
                         Atualizar
                     </Button>
-                    <Button variant="secondary" onClick={() => router.back()}>
+                    <Button variant="secondary" onClick={() => Router.back()}>
                         Cancelar
                     </Button>
                 </div>
             </main>
         </>
     );
-}
-
-export async function getServerSideProps(context) {
-    const { id } = context.query;
-    try {
-        const response = await fetch(
-            `http://localhost:3001/admin/process/${id}`,
-            {
-                method: "GET",
-                headers: {
-                    Cookie: context.req.headers.cookie || "",
-                },
-            }
-        );
-        if (!response.ok) return { notFound: true };
-        const initialProcessData = await response.json();
-        return { props: { initialProcessData } };
-    } catch (error) {
-        console.error(`Could not fetch process ${id} for editing:`, error);
-        return { notFound: true };
-    }
 }

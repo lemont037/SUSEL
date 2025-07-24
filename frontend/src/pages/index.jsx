@@ -6,7 +6,7 @@ import Button from "../components/Button";
 import InputField from "../components/InputField";
 import Card from "../components/Card";
 import Link from "next/link";
-import Image from "next/image"; 
+import Image from "next/image";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -24,7 +24,7 @@ export default function LoginPage() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ email, password }),
-                credentials: 'include'
+                credentials: "include",
             });
 
             if (!response.ok) {
@@ -90,7 +90,11 @@ export default function LoginPage() {
                                     Esqueceu sua senha?
                                 </Link>
                             </div>
-                            <Button type="submit" variant="primary" onClick={handleLogin}>
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                onClick={handleLogin}
+                            >
                                 Entrar
                             </Button>
                         </form>
@@ -110,9 +114,14 @@ export default function LoginPage() {
                     <Image
                         src="/images/icon-login.png" // <-- Caminho da sua imagem
                         alt="Ilustração do Sistema SUSEL" // Texto para acessibilidade
-                        width={400} 
-                        height={300} 
-                        style={{ maxWidth: '100%', height: 'auto', display: 'block', margin: '20px auto' }}
+                        width={400}
+                        height={300}
+                        style={{
+                            maxWidth: "100%",
+                            height: "auto",
+                            display: "block",
+                            margin: "20px auto",
+                        }}
                     />
                     <p>Seu sistema de gerência para Processos Seletivos</p>
                 </div>

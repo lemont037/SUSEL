@@ -3,15 +3,26 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../../styles/AdminIndex.module.css";
 import { ChevronDown, FileText } from "lucide-react";
+import { redirect } from "next/dist/server/api-utils";
 
 export async function getServerSideProps(context) {
     try {
         const response = await fetch("http://localhost:3001/admin", {
             method: "GET",
             headers: {
-                Cookies: context.req.headers.cookie || "",
+                Cookie: context.req.headers.cookie || "",
             },
         });
+
+        if (response.status === 401 || response.status === 403) {
+            return {
+                redirect: {
+                    destination: "/unauthorized",
+                    permanent: false,
+                },
+            };
+        }
+
         const data = await response.json();
 
         return {

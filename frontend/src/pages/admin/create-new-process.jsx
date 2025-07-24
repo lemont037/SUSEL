@@ -14,6 +14,35 @@ const FileUpload = () => (
     </div>
 );
 
+export async function getServerSideProps(context) {
+    try {
+        const response = await fetch("http://localhost:3001/admin", {
+            method: "GET",
+            headers: {
+                Cookie: context.req.headers.cookie || "",
+            },
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            return {
+                redirect: {
+                    destination: "/unauthorized",
+                    permanent: false,
+                },
+            };
+        }
+
+        return {
+            props: {},
+        };
+    } catch (error) {
+        console.error("Error:", error);
+        return {
+            props: { error },
+        };
+    }
+}
+
 export default function CreateNewProcessPage() {
     const [title, setTitle] = useState("");
     const [code, setCode] = useState("");

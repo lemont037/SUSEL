@@ -15,9 +15,19 @@ export async function getServerSideProps(context) {
         const response = await fetch(`http://localhost:3001/u/${uid}/config`, {
             method: "GET",
             headers: {
-                Cookies: context.req.headers.cookie || "",
+                Cookie: context.req.headers.cookie || "",
             },
         });
+
+        if (response.status === 401 || response.status === 403) {
+            return {
+                redirect: {
+                    destination: "/unauthorized",
+                    permanent: false,
+                },
+            };
+        }
+
         const user = await response.json();
 
         return {

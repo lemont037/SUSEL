@@ -7,6 +7,37 @@ import Button from "../../../components/Button";
 import InputField from "../../../components/InputField";
 import Card from "../../../components/Card";
 
+export async function getServerSideProps(context) {
+    try {
+        const { uid } = context.params;
+
+        const response = await fetch(`http://localhost:3001/u/${uid}/config`, {
+            method: "GET",
+            headers: {
+                Cookie: context.req.headers.cookie || "",
+            },
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            return {
+                redirect: {
+                    destination: "/unauthorized",
+                    permanent: false,
+                },
+            };
+        }
+
+        return {
+            props: {},
+        };
+    } catch (error) {
+        console.error("Erro ao buscar dados do usuário:", error);
+        return {
+            notFound: true,
+        };
+    }
+}
+
 export default function NewPasswordPage() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");

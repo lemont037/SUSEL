@@ -19,6 +19,16 @@ export async function getServerSideProps(context) {
                 },
             }
         );
+
+        if (response.status === 401 || response.status === 403) {
+            return {
+                redirect: {
+                    destination: "/unauthorized",
+                    permanent: false,
+                },
+            };
+        }
+
         const process = await response.json();
         if (!process) {
             return { props: { process: null } };
