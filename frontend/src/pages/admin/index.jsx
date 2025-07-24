@@ -3,10 +3,20 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../../styles/AdminIndex.module.css";
 import { ChevronDown, FileText } from "lucide-react";
+import { getServerSideWithAuth } from "../../utils/getServerSideWithAuth";
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
     try {
-        const response = await fetch("http://localhost:3001/admin");
+        const response = await getServerSideWithAuth(
+            context,
+            "http://localhost:3001/admin",
+            {
+                method: "GET",
+            }
+        );
+
+        if (response?.redirect?.destination) return response;
+
         const data = await response.json();
 
         return {

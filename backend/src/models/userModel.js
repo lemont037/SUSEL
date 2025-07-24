@@ -32,6 +32,11 @@ const userSchema = new Schema({
         type: String,
         enum: ['admin', 'user'],
         default: 'user'
+    },
+    refreshToken: {
+        type: String,
+        default: null,
+        unique: true
     }
 });
 

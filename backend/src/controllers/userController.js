@@ -1,9 +1,17 @@
 const { User, Process } = require('../models/userModel');
+const jwt = require('jsonwebtoken')
+const config = require('../config/config')
 
 const userController = {
     getActiveProcess: async (req, res) => {
+
         try {
             const userId = req.params.uid;
+
+            if (userId !== req.user.uid) {
+                return res.status(403).json({message: "Unauthorized"})
+            }
+
             const user = await User.findById(userId);
             if (!user) {
                res.status(404).json({message: 'User not found'});
@@ -19,8 +27,14 @@ const userController = {
         }
     },
     getUserProcessById: async (req, res) => {
+
         try {
             const userId = req.params.uid;
+
+            if (userId !== req.user.uid) {
+                return res.status(403).json({message: "Unauthorized"})
+            }
+
             const processId = req.params.pid;
             const user = await User.findById(userId);
             if (!user) {
@@ -39,11 +53,21 @@ const userController = {
         }
     },
     getUserInfo: async (req, res) => {
+
+        if (!req.user) {
+                return res.status(401).json({message: "Not authenticated"})
+            }
+
         try {
             const userId = req.params.uid;
+
+            if (userId !== req.user.uid) {
+                return res.status(403).json({message: "Unauthorized"})
+            }
+
             const user = await User.findById(userId);
             if (!user) {
-                res.status(404).jason({message: 'User not found'});
+                res.status(404).json({message: 'User not found'});
             } else {
                 res.status(200).json(user);
             }
@@ -53,6 +77,7 @@ const userController = {
         }
     },
     createUser: async (req, res) => {
+
         try {
             const { name, cpf, email, phone, isWhatsapp, password} = req.body;
             const role = req.body.role;
@@ -64,7 +89,7 @@ const userController = {
                      {email: email },
                      {cpf: cpf}
                     ]
-                }).then(existingUser => {;
+                }).then(async existingUser => {;
                     if (existingUser) {
                         console.error('User creation failed: Email or CPF already exists');
                         return res.status(400).json({message: 'Já existe um usuário com esse E-mail ou CPF'});
@@ -73,7 +98,7 @@ const userController = {
                             var user = new User({ name, cpf, email, phone, isWhatsapp, password, role: 'admin' }); 
                         } else { var user = new User({ name, cpf, email, phone, isWhatsapp, password}); }
 
-                        user.save();
+                        await user.save();
                         console.log('User created successfully:', user);
                         res.status(201).json(user);
                     }
@@ -85,22 +110,54 @@ const userController = {
         }
     },
     loginUser: async (req, res) => {
+
         try {
             const { email, password } = req.body;
             if (!email || !password) {
                 return res.status(400).json({message: 'Email and password are required'});
             }
             const user = await User.findOne({ email, password });
+            
             if (!user) {
                 return res.status(401).json({message: 'Invalid email or password'});
             }
-            res.status(200).json({ message: 'Login successful', user });
+
+            const payload = {
+                uid: user._id,
+                email: user.email,
+                role: user.role
+            };
+
+            const token = jwt.sign(payload, config.jwtsecret, {
+                expiresIn: config.jwtexpires
+            })
+            const refreshToken = jwt.sign(payload, config.jwtrefreshsecret, {
+                expiresIn: '1h'
+            })
+            await User.findByIdAndUpdate(user._id, {refreshToken: refreshToken})
+
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                maxAge: 60*60*1000
+            });
+            
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                maxAge: 60*60*1000
+            });
+
+            res.status(200).json({ message: 'Login successful', user, token, refreshToken });
         } catch (error) {
             console.error('Error logging in user:', error);
             res.status(500).json({message: 'Internal server error'});
         }
     },
     forgotPassword: async (req, res) => {
+
         try {
             const { email } = req.body;
             if (!email) {
@@ -119,9 +176,17 @@ const userController = {
         }
     },
     resetPassword: async (req, res) => {
+
         try {
             const userId = req.params.uid;
             const { newPassword } = req.body;
+            
+            console.log(userId, req.user.uid)
+
+            if (userId !== req.user.uid) {
+                return res.status(403).json({message: "Unauthorized"})
+            }
+
             if (!newPassword) {
                 return res.status(400).send('New password is required');
             }
@@ -136,9 +201,15 @@ const userController = {
         }
     },
     updateUserInfo: async (req, res) => {
+
         try {
             const userId = req.params.uid;
             const { name, email } = req.body;
+
+            if (userId !== req.user.uid) {
+                return res.status(403).json({message: "Unauthorized"})
+            }
+
             if (!name || !email) {
                 return res.status(400).send('Name and email are required');
             }
@@ -153,9 +224,14 @@ const userController = {
         }
     },
     deleteUser: async (req, res) => {
+
         try {
             const userId = req.params.uid;
             const { password }= req.body
+
+            if (userId !== req.user.uid) {
+                return res.status(403).json({message: "Unauthorized"})
+            }
 
             const user = await User.findById(userId)
             if (!user) {
@@ -176,6 +252,11 @@ const userController = {
         try {
             const userId = req.params.uid;
             const processId = req.params.pid;
+
+            if (userId !== req.user.uid) {
+                return res.status(403).json({message: "Unauthorized"})
+            }
+
             const user = await User.findById(userId);
             const process = await Process.findById(processId);
             if (!user || !process) {
@@ -195,6 +276,55 @@ const userController = {
             console.error('Error submitting to process:', error);
             res.status(500).send('Internal server error');
         }
+    },
+    generateNewToken: async (req, res) => {
+        const refreshToken = req.cookies.refreshToken;
+
+        if (!refreshToken) {
+            return res.status(400).json({message: 'Refresh token is required'})
+        }
+
+        try {
+            const decoded = jwt.verify(refreshToken, config.jwtrefreshsecret)
+
+            const user = await User.findById(decoded.uid);
+
+            if (!user || user.refreshToken !== refreshToken) {
+                return res.status(403).json({message: 'Invalid refresh token'})
+            }
+
+            const newPayload = {
+                uid: user._id,
+                email: user.email,
+                role: user.role
+            };
+
+            const newToken = jwt.sign(newPayload, config.jwtsecret, {
+                expiresIn: config.jwtexpires
+            })
+
+            res.cookie('token', newToken, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                maxAge: 60*60*1000
+            })
+
+            res.status(200).json({message: 'New token created successfully', token: newToken})
+        } catch (error) {
+            console.error(`Error generating new acces token: ${error}`)
+            return res.status(401).json({message: 'Invalid or expired refresh token. Please, login again'})
+        }
+    },
+    logOutUser: (req, res) => {
+
+        res.clearCookie('token');
+        res.clearCookie('refreshToken');
+
+        // REMOVER APÓS TESTES
+        console.log("Cookies limpos: ", res.cookies)
+
+        res.status(202).json({message: "Logged out successfully"})
     }
 }
 

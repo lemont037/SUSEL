@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-
+import { getServerSideWithAuth } from "../../../utils/getServerSideWithAuth";
 import Header from "../../../components/Header";
 import Sidebar from "../../../components/Sidebar";
 import ProcessListItem from "../../../components/ProcessListItem";
@@ -10,10 +10,13 @@ export async function getServerSideProps(context) {
     try {
         const { uid } = context.params;
 
-        const response = await fetch(`http://localhost:3001/u/${uid}`);
+        const response = await getServerSideWithAuth(context, `http://localhost:3001/u/${uid}`, {
+            method: "GET",
+        });
+
+        if (response?.redirect?.destination) return response
+
         const data = await response.json();
-
-
 
         return {
             props: {
@@ -35,7 +38,6 @@ export async function getServerSideProps(context) {
 }
 
 export default function UserHome({ uid, activeProcesses, userProcesses }) {
-
     return (
         <>
             <Head>
@@ -52,7 +54,9 @@ export default function UserHome({ uid, activeProcesses, userProcesses }) {
                 <div className={styles.contentArea}>
                     <Sidebar userProcesses={userProcesses} uid={uid} />
                     <main className={styles.mainContent}>
-                        <h1 className={styles.pageTitle}>Processos Ativos no Momento</h1>
+                        <h1 className={styles.pageTitle}>
+                            Processos Ativos no Momento
+                        </h1>
 
                         <div className={styles.processList}>
                             {activeProcesses.length === 0 ? (

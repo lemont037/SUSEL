@@ -5,20 +5,26 @@ import ClientModal from "../../components/ClientModal";
 import PhaseItem from "../../components/PhaseItem";
 import { FileText, User } from "lucide-react";
 import { format } from "date-fns";
+import { getServerSideWithAuth } from "../../utils/getServerSideWithAuth";
 
 export async function getServerSideProps(context) {
     const { id } = context.query;
 
     try {
-        const response = await fetch(
-            `http://localhost:3001/admin/process/${id}`
+        const response = await getServerSideWithAuth(
+            context,
+            `http://localhost:3001/admin/process/${id}`,
+            {
+                method: "GET",
+            }
         );
+
+        if (response?.redirect?.destination) return response;
+
         const process = await response.json();
         if (!process) {
             return { props: { process: null } };
         }
-
-        
 
         return { props: { process } };
     } catch (error) {
@@ -31,8 +37,6 @@ export default function ProcessDetailsPage({ process }) {
     if (!process) {
         return <div>Processo não encontrado.</div>;
     }
-
-    console.log("Process Details:", process);
 
     return (
         <>
@@ -74,7 +78,7 @@ export default function ProcessDetailsPage({ process }) {
                                 phaseNumber={index + 1}
                                 title={phase.title}
                                 description={phase.description}
-                                endDate={format(phase.endDate, 'dd/MM/yyyy')}
+                                endDate={format(phase.endDate, "dd/MM/yyyy")}
                             />
                         ))
                     )}

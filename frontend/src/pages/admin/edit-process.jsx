@@ -5,6 +5,31 @@ import styles from "../../styles/CreateProcess.module.css";
 import Button from "../../components/Button";
 import InputField from "../../components/InputField";
 import PhaseCard from "../../components/PhaseCard";
+import { getServerSideWithAuth } from "../../utils/getServerSideWithAuth";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
+
+export async function getServerSideProps(context) {
+    const { id } = context.query;
+
+    try {
+        const response = await getServerSideWithAuth(
+            context,
+            `http://localhost:3001/admin/process/${id}`,
+            {
+                method: "GET",
+            }
+        );
+
+        if (response?.redirect?.destination) {
+            return response;
+        } else if (!response.ok) return { notFound: true };
+        const initialProcessData = await response.json();
+        return { props: { initialProcessData } };
+    } catch (error) {
+        console.error(`Could not fetch process ${id} for editing:`, error);
+        return { notFound: true };
+    }
+}
 
 export default function EditProcessPage({ initialProcessData }) {
     const { id } = Router.query;
@@ -58,7 +83,7 @@ export default function EditProcessPage({ initialProcessData }) {
         const processData = { title, code, description, phases };
 
         try {
-            const response = await fetch(
+            const response = await fetchWithAuth(
                 `http://localhost:3001/admin/process/${id}/edit`,
                 {
                     method: "PUT",
@@ -152,27 +177,11 @@ export default function EditProcessPage({ initialProcessData }) {
                     <Button variant="primary" onClick={handleUpdateProcess}>
                         Atualizar
                     </Button>
-                    <Button variant="secondary" onClick={() => router.back()}>
+                    <Button variant="secondary" onClick={() => Router.back()}>
                         Cancelar
                     </Button>
                 </div>
             </main>
         </>
     );
-}
-
-// TODO: Conectar com a API do back-end
-export async function getServerSideProps(context) {
-    const { id } = context.query;
-    try {
-        const response = await fetch(
-            `http://localhost:3001/admin/process/${id}`
-        );
-        if (!response.ok) return { notFound: true };
-        const initialProcessData = await response.json();
-        return { props: { initialProcessData } };
-    } catch (error) {
-        console.error(`Could not fetch process ${id} for editing:`, error);
-        return { notFound: true };
-    }
 }
