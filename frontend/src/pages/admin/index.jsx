@@ -3,25 +3,19 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../../styles/AdminIndex.module.css";
 import { ChevronDown, FileText } from "lucide-react";
-import { redirect } from "next/dist/server/api-utils";
+import { getServerSideWithAuth } from "../../utils/getServerSideWithAuth";
 
 export async function getServerSideProps(context) {
     try {
-        const response = await fetch("http://localhost:3001/admin", {
-            method: "GET",
-            headers: {
-                Cookie: context.req.headers.cookie || "",
-            },
-        });
+        const response = await getServerSideWithAuth(
+            context,
+            "http://localhost:3001/admin",
+            {
+                method: "GET",
+            }
+        );
 
-        if (response.status === 401 || response.status === 403) {
-            return {
-                redirect: {
-                    destination: "/unauthorized",
-                    permanent: false,
-                },
-            };
-        }
+        if (response?.redirect?.destination) return response;
 
         const data = await response.json();
 

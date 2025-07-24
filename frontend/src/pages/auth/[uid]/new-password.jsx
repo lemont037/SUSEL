@@ -6,26 +6,18 @@ import customStyles from "../../../styles/NewPassword.module.css";
 import Button from "../../../components/Button";
 import InputField from "../../../components/InputField";
 import Card from "../../../components/Card";
+import { getServerSideWithAuth } from "../../../utils/getServerSideWithAuth";
+import { fetchWithAuth } from "../../../utils/fetchWithAuth";
 
 export async function getServerSideProps(context) {
     try {
         const { uid } = context.params;
 
-        const response = await fetch(`http://localhost:3001/u/${uid}/config`, {
+        const response = await getServerSideWithAuth(context, `http://localhost:3001/u/${uid}/config`, {
             method: "GET",
-            headers: {
-                Cookie: context.req.headers.cookie || "",
-            },
         });
 
-        if (response.status === 401 || response.status === 403) {
-            return {
-                redirect: {
-                    destination: "/unauthorized",
-                    permanent: false,
-                },
-            };
-        }
+        if (response?.redirect?.destination) return response
 
         return {
             props: {},
@@ -84,7 +76,7 @@ export default function NewPasswordPage() {
         }
 
         try {
-            const response = await fetch(
+            const response = await fetchWithAuth(
                 `http://localhost:3001/auth/${Router.query.uid}/new-password`,
                 {
                     method: "PUT",
@@ -92,7 +84,6 @@ export default function NewPasswordPage() {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({ newPassword }),
-                    credentials: "include",
                 }
             );
 

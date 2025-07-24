@@ -3,14 +3,7 @@ const { Process } = require('../models/userModel');
 const adminController = {
     getAllProcesses: async (req, res) => {
 
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
-
         try {
-
-            // REMOVER APÓS TESTES
-            console.log("Verificando role do usuário: ", req.user.role)
-
             if (req.user.role !== 'admin') {
                 return res.status(403).json({message: "Unauthorized"})
             }
@@ -29,14 +22,7 @@ const adminController = {
     },
     getProcessById: async (req, res) => {
 
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
-
         try {
-
-            // REMOVER APÓS TESTES
-            console.log("Verificando role do usuário: ", req.user.role)
-
             if (req.user.role !== 'admin') {
                 return res.status(403).json({message: "Unauthorized"})
             }
@@ -55,14 +41,7 @@ const adminController = {
     },
     createProcess: async (req, res) => {
 
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
-
         try {
-
-            // REMOVER APÓS TESTES
-            console.log("Verificando role do usuário: ", req.user.role)
-
             if (req.user.role !== 'admin') {
                 return res.status(403).json({message: "Unauthorized"})
             }
@@ -90,14 +69,7 @@ const adminController = {
     },
     updateProcess: async (req, res) => {
 
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
-
         try {
-
-            // REMOVER APÓS TESTES
-            console.log("Verificando role do usuário: ", req.user.role)
-
             if (req.user.role !== 'admin') {
                 return res.status(403).json({message: "Unauthorized"})
             }
@@ -119,14 +91,7 @@ const adminController = {
     },
     deleteProcess: async (req, res) => {
 
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
-
         try {
-
-            // REMOVER APÓS TESTES
-            console.log("Verificando role do usuário: ", req.user.role)
-
             if (req.user.role !== 'admin') {
                 return res.status(403).json({message: "Unauthorized"})
             }

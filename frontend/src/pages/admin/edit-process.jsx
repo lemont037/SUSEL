@@ -5,28 +5,23 @@ import styles from "../../styles/CreateProcess.module.css";
 import Button from "../../components/Button";
 import InputField from "../../components/InputField";
 import PhaseCard from "../../components/PhaseCard";
+import { getServerSideWithAuth } from "../../utils/getServerSideWithAuth";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
 
 export async function getServerSideProps(context) {
     const { id } = context.query;
 
     try {
-        const response = await fetch(
+        const response = await getServerSideWithAuth(
+            context,
             `http://localhost:3001/admin/process/${id}`,
             {
                 method: "GET",
-                headers: {
-                    Cookie: context.req.headers.cookie || "",
-                },
             }
         );
 
-        if (response.status === 401 || response.status === 403) {
-            return {
-                redirect: {
-                    destination: "/unauthorized",
-                    permanent: false,
-                },
-            };
+        if (response?.redirect?.destination) {
+            return response;
         } else if (!response.ok) return { notFound: true };
         const initialProcessData = await response.json();
         return { props: { initialProcessData } };
@@ -86,13 +81,12 @@ export default function EditProcessPage({ initialProcessData }) {
         const processData = { title, code, description, phases };
 
         try {
-            const response = await fetch(
+            const response = await fetchWithAuth(
                 `http://localhost:3001/admin/process/${id}/edit`,
                 {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(processData),
-                    credentials: "include",
                 }
             );
 

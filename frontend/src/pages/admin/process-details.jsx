@@ -5,29 +5,21 @@ import ClientModal from "../../components/ClientModal";
 import PhaseItem from "../../components/PhaseItem";
 import { FileText, User } from "lucide-react";
 import { format } from "date-fns";
+import { getServerSideWithAuth } from "../../utils/getServerSideWithAuth";
 
 export async function getServerSideProps(context) {
     const { id } = context.query;
 
     try {
-        const response = await fetch(
+        const response = await getServerSideWithAuth(
+            context,
             `http://localhost:3001/admin/process/${id}`,
             {
                 method: "GET",
-                headers: {
-                    Cookie: context.req.headers.cookie || "",
-                },
             }
         );
 
-        if (response.status === 401 || response.status === 403) {
-            return {
-                redirect: {
-                    destination: "/unauthorized",
-                    permanent: false,
-                },
-            };
-        }
+        if (response?.redirect?.destination) return response;
 
         const process = await response.json();
         if (!process) {

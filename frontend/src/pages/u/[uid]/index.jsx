@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-
+import { getServerSideWithAuth } from "../../../utils/getServerSideWithAuth";
 import Header from "../../../components/Header";
 import Sidebar from "../../../components/Sidebar";
 import ProcessListItem from "../../../components/ProcessListItem";
@@ -10,21 +10,11 @@ export async function getServerSideProps(context) {
     try {
         const { uid } = context.params;
 
-        const response = await fetch(`http://localhost:3001/u/${uid}`, {
+        const response = await getServerSideWithAuth(context, `http://localhost:3001/u/${uid}`, {
             method: "GET",
-            headers: {
-                Cookie: context.req.headers.cookie || "",
-            },
         });
 
-        if (response.status === 401 || response.status === 403) {
-            return {
-                redirect: {
-                    destination: "/unauthorized",
-                    permanent: false,
-                },
-            };
-        }
+        if (response?.redirect?.destination) return response
 
         const data = await response.json();
 

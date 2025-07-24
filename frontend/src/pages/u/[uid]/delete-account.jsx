@@ -7,26 +7,18 @@ import InputField from "../../../components/InputField";
 import Button from "../../../components/Button";
 import styles from "../../../styles/DeleteAccount.module.css";
 import layoutStyles from "../../../styles/UserIndex.module.css";
+import { fetchWithAuth } from "../../../utils/fetchWithAuth";
+import { getServerSideWithAuth } from "../../../utils/getServerSideWithAuth";
 
 export async function getServerSideProps(context) {
     try {
         const { uid } = context.params;
 
-        const response = await fetch(`http://localhost:3001/u/${uid}/config`, {
+        const response = await getServerSideWithAuth(context, `http://localhost:3001/u/${uid}/config`, {
             method: "GET",
-            headers: {
-                Cookie: context.req.headers.cookie || "",
-            },
         });
 
-        if (response.status === 401 || response.status === 403) {
-            return {
-                redirect: {
-                    destination: "/unauthorized",
-                    permanent: false,
-                },
-            };
-        }
+        if (response?.redirect?.destination) return response
 
         const user = await response.json();
 
@@ -46,7 +38,7 @@ export default function DeleteAccountPage({ user }) {
     const uid = user._id;
     const handleDelete = async () => {
         try {
-            const response = await fetch(
+            const response = await fetchWithAuth(
                 `http://localhost:3001/u/${uid}/config/delete`,
                 {
                     method: "DELETE",
@@ -54,7 +46,6 @@ export default function DeleteAccountPage({ user }) {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({ password }),
-                    credentials: "include",
                 }
             );
 

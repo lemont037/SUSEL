@@ -5,6 +5,8 @@ export default function Unauthorized() {
         <div className={styles.main}>
             <h1>Acesso Negado</h1>
             <p>Você não tem permissão para acessar esta página.</p>
+            <br/>
+            <a href="/">Voltar a Página de Login</a>
         </div>
     );
 }

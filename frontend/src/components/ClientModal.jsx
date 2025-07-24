@@ -3,24 +3,20 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { MoreVertical } from "lucide-react";
 import styles from "../styles/AdminProcessDetails.module.css";
+import { getServerSideWithAuth } from "../utils/getServerSideWithAuth";
+import { fetchWithAuth } from "../utils/fetchWithAuth";
 
 export async function getServerSideProps(context) {
     try {
-        const response = await fetch("http://localhost:3001/admin", {
-            method: "GET",
-            headers: {
-                Cookie: context.req.headers.cookie || "",
-            },
-        });
+        const response = await getServerSideWithAuth(
+            context,
+            "http://localhost:3001/admin",
+            {
+                method: "GET",
+            }
+        );
 
-        if (response.status === 401 || response.status === 403) {
-            return {
-                redirect: {
-                    destination: "/unauthorized",
-                    permanent: false,
-                },
-            };
-        }
+        if (response?.redirect?.destination) return response;
 
         return {
             props: {},
@@ -28,7 +24,7 @@ export async function getServerSideProps(context) {
     } catch (error) {
         console.error("Error:", error);
         return {
-            props: { error },
+            props: {},
         };
     }
 }
@@ -42,11 +38,10 @@ export default function ClientModal({ processId }) {
         console.log("Deleting process with ID:", processId);
 
         try {
-            const response = await fetch(
+            const response = await fetchWithAuth(
                 `http://localhost:3001/admin/process/${processId}/delete`,
                 {
                     method: "DELETE",
-                    credentials: "include",
                 }
             );
 

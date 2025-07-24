@@ -5,9 +5,6 @@ const config = require('../config/config')
 const userController = {
     getActiveProcess: async (req, res) => {
 
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
-
         try {
             const userId = req.params.uid;
 
@@ -30,9 +27,6 @@ const userController = {
         }
     },
     getUserProcessById: async (req, res) => {
-
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
 
         try {
             const userId = req.params.uid;
@@ -60,9 +54,6 @@ const userController = {
     },
     getUserInfo: async (req, res) => {
 
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
-
         if (!req.user) {
                 return res.status(401).json({message: "Not authenticated"})
             }
@@ -86,9 +77,6 @@ const userController = {
         }
     },
     createUser: async (req, res) => {
-
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
 
         try {
             const { name, cpf, email, phone, isWhatsapp, password} = req.body;
@@ -123,9 +111,6 @@ const userController = {
     },
     loginUser: async (req, res) => {
 
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
-
         try {
             const { email, password } = req.body;
             if (!email || !password) {
@@ -136,8 +121,6 @@ const userController = {
             if (!user) {
                 return res.status(401).json({message: 'Invalid email or password'});
             }
-
-            console.log(`User encontrado: ${user}`)
 
             const payload = {
                 uid: user._id,
@@ -175,9 +158,6 @@ const userController = {
     },
     forgotPassword: async (req, res) => {
 
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
-
         try {
             const { email } = req.body;
             if (!email) {
@@ -196,9 +176,6 @@ const userController = {
         }
     },
     resetPassword: async (req, res) => {
-
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
 
         try {
             const userId = req.params.uid;
@@ -225,9 +202,6 @@ const userController = {
     },
     updateUserInfo: async (req, res) => {
 
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
-
         try {
             const userId = req.params.uid;
             const { name, email } = req.body;
@@ -250,9 +224,6 @@ const userController = {
         }
     },
     deleteUser: async (req, res) => {
-
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
 
         try {
             const userId = req.params.uid;
@@ -307,7 +278,7 @@ const userController = {
         }
     },
     generateNewToken: async (req, res) => {
-        const { refreshToken } = req.cookies.refreshToken;
+        const refreshToken = req.cookies.refreshToken;
 
         if (!refreshToken) {
             return res.status(400).json({message: 'Refresh token is required'})
@@ -346,9 +317,6 @@ const userController = {
         }
     },
     logOutUser: (req, res) => {
-
-        // REMOVER APÓS TESTES
-        console.log("Usuário recebido: ", req.user)
 
         res.clearCookie('token');
         res.clearCookie('refreshToken');

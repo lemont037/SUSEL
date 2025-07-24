@@ -6,6 +6,8 @@ import Button from "../../components/Button";
 import InputField from "../../components/InputField";
 import PhaseCard from "../../components/PhaseCard";
 import AttachmentItem from "../../components/AttachmentItem";
+import { getServerSideWithAuth } from "../../utils/getServerSideWithAuth";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
 
 // Placeholder para um futuro componente de Upload de Arquivo
 const FileUpload = () => (
@@ -16,21 +18,14 @@ const FileUpload = () => (
 
 export async function getServerSideProps(context) {
     try {
-        const response = await fetch("http://localhost:3001/admin", {
-            method: "GET",
-            headers: {
-                Cookie: context.req.headers.cookie || "",
-            },
-        });
+        const response = await getServerSideWithAuth(
+            "http://localhost:3001/admin",
+            {
+                method: "GET",
+            }
+        );
 
-        if (response.status === 401 || response.status === 403) {
-            return {
-                redirect: {
-                    destination: "/unauthorized",
-                    permanent: false,
-                },
-            };
-        }
+        if (response?.redirect?.destination) return response;
 
         return {
             props: {},
@@ -38,7 +33,7 @@ export async function getServerSideProps(context) {
     } catch (error) {
         console.error("Error:", error);
         return {
-            props: { error },
+            props: {},
         };
     }
 }
@@ -114,7 +109,7 @@ export default function CreateNewProcessPage() {
         }));
 
         try {
-            const response = await fetch(
+            const response = await fetchWithAuth(
                 "http://localhost:3001/admin/new-process",
                 {
                     method: "POST",
@@ -128,7 +123,6 @@ export default function CreateNewProcessPage() {
                         phases: cleanPhases,
                         //attachments
                     }),
-                    credentials: "include",
                 }
             );
 
