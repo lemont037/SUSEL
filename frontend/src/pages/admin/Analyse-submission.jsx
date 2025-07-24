@@ -5,7 +5,7 @@ import Button from "../../components/Button";
 
 export default function AnalyseSubmissionPage({ submission, process }) {
     const router = useRouter();
-
+    const [notification, setNotification] = useState({ message: '', type: '' });
     const handleDecision = async (decision) => {
         // TODO: Conectar com a API do back-end para enviar a decisão
         try {
@@ -20,10 +20,16 @@ export default function AnalyseSubmissionPage({ submission, process }) {
 
             if (!response.ok) throw new Error("Falha ao registrar decisão");
 
-            alert(`Inscrição marcada como ${decision}!`);
+            setNotification({ message: `Inscrição marcada como ${decision}!`, type: 'success' });
+
+            // Redireciona após um pequeno delay para o usuário ver a mensagem
+            setTimeout(() => {
+                router.push(`/admin/process-details?id=${process.id}`);
+            }, 2000); // Atraso de 2 segundos
+
             router.push(`/admin/process-details?id=${process.id}`);
         } catch (error) {
-            alert(`Erro: ${error.message}`);
+            setNotification({ message: `Erro: ${error.message}`, type: 'error' });
         }
     };
 
@@ -35,6 +41,12 @@ export default function AnalyseSubmissionPage({ submission, process }) {
             <main className={styles.content}>
                 <h2 className={styles.pageTitle}>Análise de Inscrição</h2>
 
+                {notification.message && (
+                    <div className={notification.type === 'success' ? styles.successBox : styles.errorBox}>
+                        {notification.message}
+                    </div>
+                )}
+                
                 <div className={styles.mainGrid}>
                     <div className={styles.submissionDetails}>
                         <section className={styles.section}>

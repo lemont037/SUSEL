@@ -1,5 +1,3 @@
-// src/pages/user/process-details.jsx
-
 import React from "react";
 import Head from "next/head";
 
@@ -47,6 +45,19 @@ const process = {
 };
 
 export default function ProcessDetailsPage() {
+    const [notification, setNotification] = useState({ message: '', type: '' });
+
+    const handleDeleteAttachment = (attachmentName) => {
+        // Simula a lógica de exclusão e exibe uma mensagem de sucesso
+        console.log(`Simulando a exclusão de: ${attachmentName}`);
+        setNotification({ message: `Anexo "${attachmentName}" removido com sucesso (simulação).`, type: 'success' });
+
+        // Esconde a mensagem após 3 segundos
+        setTimeout(() => {
+            setNotification({ message: '', type: '' });
+        }, 3000);
+    };
+
     return (
         <>
             <Head>
@@ -65,6 +76,12 @@ export default function ProcessDetailsPage() {
                     <h1 className={styles.pageTitleStyle}>
                         Processo Seletivo 01
                     </h1>
+
+                    {notification.message && (
+                        <div className={notification.type === 'success' ? styles.successBox : styles.errorBox}>
+                            {notification.message}
+                        </div>
+                    )}
 
                     <SectionCard title="Dados gerais">
                         <div className={styles.blueBoxStyle}>
@@ -160,9 +177,7 @@ export default function ProcessDetailsPage() {
                                 fileName={attachment.name}
                                 fileType={attachment.type}
                                 fileUrl={attachment.url}
-                                onDelete={() =>
-                                    alert(`Deletar anexo: ${attachment.name}`)
-                                }
+                                onDelete={() => handleDeleteAttachment(attachment.name)}
                             />
                         ))}
                     </SectionCard>

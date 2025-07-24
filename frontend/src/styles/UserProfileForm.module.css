@@ -1,0 +1,68 @@
+.formContainer {
+    background-color: var(--azul-secundario);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    /* Espaço entre título, colunas e botão */
+    max-width: 900px;
+    /* Limita a largura do formulário */
+    margin: 20px auto;
+    /* Centraliza o formulário na página */
+    color: var(--foreground);
+    /* Cor de texto padrão para esta seção */
+}
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--azul-primario);
+    /* Cor do título "Edite seu Cadastro!" */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.contentColumns {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    /* Permite que as colunas quebrem linha em telas menores */
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.formFieldsColumn {
+    flex: 2;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.avatarColumn {
+    flex: 1;
+    min-width: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Centraliza o avatar verticalmente */
+}
+
+.saveButtonContainer {
+    display: flex;
+    justify-content: center;
+    /* Centraliza o botão salvar */
+    margin-top: 30px;
+}
+.errorBox {
+  background-color: #fee2e2; /* Vermelho claro */
+  color: #b91c1c; /* Vermelho escuro para o texto */
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem; /* Espaço entre a mensagem e o conteúdo */
+  font-weight: bold;
+  text-align: center;
+}

@@ -39,6 +39,8 @@ export default function EditProcessPage({ initialProcessData }) {
     const [description, setDescription] = useState("");
     const [phases, setPhases] = useState([]);
 
+    const [notification, setNotification] = useState({ message: '', type: '' });
+
     useEffect(() => {
         if (initialProcessData) {
             setTitle(initialProcessData.title);
@@ -92,10 +94,16 @@ export default function EditProcessPage({ initialProcessData }) {
 
             if (!response.ok) throw new Error("Falha ao atualizar o processo");
 
-            alert("Processo atualizado com sucesso!");
+            setNotification({ message: 'Processo atualizado com sucesso!', type: 'success' });
+            
+            // Redireciona após um delay
+            setTimeout(() => {
+                Router.push(`/admin/process-details?id=${id}`);
+            }, 2000);
+
             Router.push(`/admin/process-details?id=${id}`);
         } catch (error) {
-            alert(`Erro: ${error.message}`);
+            setNotification({ message: `Erro: ${error.message}`, type: 'error' });
         }
     };
 
@@ -109,6 +117,12 @@ export default function EditProcessPage({ initialProcessData }) {
             <main className={styles.content}>
                 <h2 className={styles.pageTitle}>Edição Processo Seletivo</h2>
 
+                {notification.message && (
+                    <div className={notification.type === 'success' ? styles.successBox : styles.errorBox}>
+                        {notification.message}
+                    </div>
+                )}
+                
                 <section className={styles.section}>
                     <h3 className={styles.sectionTitle}>Dados gerais</h3>
                     <InputField

@@ -1,17 +1,14 @@
 import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router'; // Para pegar o UID da URL
-
-// --- IMPORTAÇÕES DE COMPONENTES ---
-import Header from '../../../components/header'; // Cabeçalho
-import Button from '../../../components/Button'; // Botão
-import ProcessInfoPanel from '../../../components/ProcessInfoPanel'; // Painel de Informações do Processo
-import CandidateDataForm from '../../../components/CandidateDataForm'; // Formulário de Dados do Candidato
-import AcademicForm from '../../../components/AcademicForm'; // Formulário Acadêmico
-import FileUploader from '../../../components/FileUploader'; // Componente de Upload de Arquivos
+import Header from '../../../components/header'; 
+import Button from '../../../components/Button'; 
+import ProcessInfoPanel from '../../../components/ProcessInfoPanel'; 
+import CandidateDataForm from '../../../components/CandidateDataForm'; 
+import AcademicForm from '../../../components/AcademicForm'; 
+import FileUploader from '../../../components/FileUploader'; 
 
 // --- CONSTANTES DE ESTILO PARA O LAYOUT DA PÁGINA ---
-
 // Estilos para o container principal da página (Header no topo, conteúdo abaixo)
 const layoutContainerStyle = {
     display: 'flex',
@@ -60,6 +57,28 @@ const bottomButtonsContainerStyle = {
     paddingBottom: '40px', // Padding abaixo para espaço no final da página
 };
 
+const notificationBoxBaseStyle = {
+    borderRadius: '8px',
+    padding: '1rem',
+    marginBottom: '1.5rem',
+    fontWeight: 'bold',
+    textAlign: 'center',
+};
+
+const successBoxStyle = {
+    ...notificationBoxBaseStyle,
+    backgroundColor: '#dcfce7',
+    color: '#166534',
+    border: '1px solid #bbf7d0',
+};
+
+const errorBoxStyle = {
+    ...notificationBoxBaseStyle,
+    backgroundColor: '#fee2e2',
+    color: '#b91c1c',
+    border: '1px solid #fecaca',
+};
+
 // --- DADOS DE EXEMPLO DO PROCESSO (SERIAM CARREGADOS DE UMA API REAL) ---
 // Adaptei os dados para o que o ProcessInfoPanel espera
 const processData = {
@@ -73,9 +92,15 @@ const processData = {
 export default function ProcessSignUpPage() {
     const router = useRouter();
     const { uid } = router.query; // Pega o UID da URL, ex: /u/123 -> uid = "123"
+    const [notification, setNotification] = useState({ message: '', type: '' });
 
     const handleSubmit = () => {
-        alert('Formulário Submetido!');
+        setNotification({ message: 'Formulário Submetido com Sucesso!', type: 'success' });
+
+        // Simula o redirecionamento após o usuário ver a mensagem
+        setTimeout(() => {
+            router.back(); // Volta para a página anterior
+        }, 3000); // Atraso de 3 segundos
     };
 
     const handleCancel = () => {
@@ -99,6 +124,11 @@ export default function ProcessSignUpPage() {
                 <div style={twoColumnLayout}>
                     {/* Coluna do Formulário (Esquerda) */}
                     <div style={formColumnStyle}>
+                        {notification.message && (
+                            <div style={notification.type === 'success' ? successBoxStyle : errorBoxStyle}>
+                                {notification.message}
+                            </div>
+                        )}
                         <CandidateDataForm />
                         <AcademicForm />
                         <FileUploader />
