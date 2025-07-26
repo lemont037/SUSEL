@@ -24,6 +24,17 @@
     color: white;
 }
 
+.userArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.userArea p {
+    margin: 1rem;
+    cursor: pointer;
+}
+
 .userProfile {
     width: 36px;
     height: 36px;

@@ -9,7 +9,7 @@ import Card from "../../../components/Card";
 import { getServerSideWithAuth } from "../../../utils/getServerSideWithAuth";
 import { fetchWithAuth } from "../../../utils/fetchWithAuth";
 
-export async function getServerSideProps(context) {
+/*export async function getServerSideProps(context) {
     try {
         const { uid } = context.params;
 
@@ -28,7 +28,7 @@ export async function getServerSideProps(context) {
             notFound: true,
         };
     }
-}
+}*/
 
 export default function NewPasswordPage() {
     const [newPassword, setNewPassword] = useState("");

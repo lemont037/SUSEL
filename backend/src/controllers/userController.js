@@ -183,24 +183,18 @@ const userController = {
         try {
             const userId = req.params.uid;
             const { newPassword } = req.body;
-            
-            console.log(userId, req.user.uid)
-
-            if (userId !== req.user.uid) {
-                return res.status(403).json({message: "Unauthorized"})
-            }
 
             if (!newPassword) {
-                return res.status(400).send('New password is required');
+                return res.status(400).json({message: 'New password is required'});
             }
             const user = await User.findByIdAndUpdate(userId, { password: newPassword }, { new: true });
             if (!user) {
-                return res.status(404).send('User not found');
+                return res.status(404).json({message: 'User not found'});
             }
             res.status(200).json({ message: 'Password reset successful', user });
         } catch (error) {
             console.error('Error resetting password:', error);
-            res.status(500).send('Internal server error');
+            res.status(500).json({message: 'Internal server error'});
         }
     },
     updateUserInfo: async (req, res) => {
