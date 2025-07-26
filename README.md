@@ -12,18 +12,6 @@
 
 Feito com tecnologias web de ponta, o SUSEL é ideal para instituições que desejam mais organização, transparência e eficiência nos seus processos de seleção.
 
-
-## 🚀 Funcionalidades
-
-- 📋 Inscrição online com cadastro de dados e envio de documentos
-- 📎 Upload e verificação de documentos obrigatórios
-- 🗓️ Acompanhamento de etapas e cronogramas
-- 📢 Notificações automáticas por e-mail
-- 🧾 Resultados com classificação em tempo real
-- 🛠️ Painel administrativo com gestão de vagas e candidatos
-- 🔒 Autenticação segura com JSON Web Tokens (JWT)
-
-
 ## 🧰 Tecnologias Utilizadas
 
 <table>
@@ -54,11 +42,6 @@ Feito com tecnologias web de ponta, o SUSEL é ideal para instituições que des
       <td>MongoDB</td>
       <td>Banco de dados NoSQL para flexibilidade nos dados dos candidatos</td>
     </tr>
-    <tr>
-      <td><strong>Infraestrutura</strong></td>
-      <td>Docker</td>
-      <td>Contêineres para desenvolvimento e deploy consistentes</td>
-    </tr>
   </tbody>
 </table>
 
@@ -69,20 +52,79 @@ Feito com tecnologias web de ponta, o SUSEL é ideal para instituições que des
 ### ⚙️ Pré-requisitos
 
 - [Node.js](https://nodejs.org/)
-- [Docker](https://www.docker.com/)
-- [MongoDB local ou MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+- [Nodemon](https://www.npmjs.com/package/nodemon)
+- [MongoDB local](https://www.mongodb.com/docs/manual/installation/) ou [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
 
 ### 🔧 Passos
 
+#### 1. Clone o Repositório 
 ```bash
-# Clone o repositório
-git clone https://github.com/seu-usuario/susel.git
+git clone https://github.com/lemont037/SUSEL.git
 cd susel
-
-# Copie e configure as variáveis de ambiente
-cp .env.example .env
-# Edite o .env com suas chaves de conexão
-
-# Suba os serviços com Docker
-docker-compose up --build
 ```
+#### 2. Crie um arquivo .env na raiz do seu projeto e adicione as variáveis de ambiente necessárias.
+
+> Este arquivo não está incluído no repositório por questões de segurança, então você deve criá-lo manualmente. O arquivo deve conter o seguintes conteúdo:
+```
+PORT = 3001
+MONGO_URI = mongodb://localhost:27017/susel
+JWT_SECRET = 'crie uma chave com crypto'
+JWT_REFRESH_SECRET = 'crie uma chave com crypto'
+JWT_EXPIRES_IN = 'tempo desejado (s, m, h, d)'
+```
+#### 3. Instalar as dependências:
+Antes de rodar o projeto, instale as dependências tanto para o backend quanto para o frontend.
+
+#### 3.1 Backend
+Navegue até a pasta do backend e instale as dependências:
+```
+cd backend
+npm install
+```
+#### 3.2 Frontend
+
+Navegue até a pasta do frontend e instale as dependências:
+```
+cd ../frontend
+npm install
+```
+#### 4. Rodando o Projeto
+
+Agora que você tem todas as dependências instaladas, você pode rodar o backend e o frontend.
+
+#### 4.1 Rodando o Backend
+
+No backend, o script server já está configurado para rodar o servidor usando Nodemon. O Nodemon irá reiniciar automaticamente o servidor sempre que houver alterações no código.
+
+```
+cd backend
+npm run server
+```
+Isso irá iniciar o servidor backend na porta configurada no arquivo .env (default: 3001).
+#### 4.2 Rodando o Frontend
+
+No frontend, o script dev está configurado para rodar o Next.js em modo de desenvolvimento.
+
+```
+cd frontend
+npm run dev
+```
+Isso irá iniciar o servidor Next.js na porta 3000 por padrão.
+
+#### 5. Acessando o Projeto
+- Frontend: Acesse o frontend na URL http://localhost:3000 no seu navegador.
+
+- Backend: A API do backend estará acessível em http://localhost:3001.
+
+#### 6. Testando a Conexão com o MongoDB
+
+O backend utiliza o MongoDB localmente. Certifique-se de que o MongoDB está rodando na sua máquina.
+```
+mongod
+```
+Ou abra o aplicativo MongoDB Compass.
+> Caso esteja usando o MongoDB Atlas ou outro serviço de banco de dados, ajuste a variável MONGO_URI no seu arquivo .env para refletir a URI de conexão do seu banco.
+
+## Licença
+
+Este projeto está licenciado sob a MIT License - consulte o arquivo LICENSE para mais detalhes.
