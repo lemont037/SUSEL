@@ -85,7 +85,7 @@ export default function RegisterPage() {
     };
 
     const handleCancel = () => {
-        router.push("/");
+        Router.push("/");
     };
 
     return (

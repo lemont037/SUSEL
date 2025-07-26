@@ -1,107 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import styles from '../styles/UserProfileForm.module.css';
-import EditableInfoField from './EditableInfoField'; // Reutiliza EditableInfoField
-import UserAvatar from './UserAvatar'; // Reutiliza UserAvatar
-import Button from './Button'; // Reutiliza Button
+import React, { useState, useEffect } from "react";
+import styles from "../styles/UserProfileForm.module.css";
+import EditableInfoField from "./EditableInfoField";
+import UserAvatar from "./UserAvatar";
+import Button from "./Button";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function UserProfileForm({ user, onSave }) {
-    // Estados para os campos do usuário (com valores iniciais do prop 'user')
-    const [name, setName] = useState(user?.name || '');
-    const [email, setEmail] = useState(user?.email || '');
-    const [phone, setPhone] = useState(user?.phone || '');
-    const [birthDate, setBirthDate] = useState(user?.birthDate || ''); // Formato dd/mm/aaaa
-    const [cpf, setCpf] = useState(user?.cpf || '');
-    const [avatarSrc, setAvatarSrc] = useState(user?.avatarUrl || '');
-    const [formMessage, setFormMessage] = useState('');
+    const [name, setName] = useState(user?.name || "");
+    const [email, setEmail] = useState(user?.email || "");
+    const [phone, setPhone] = useState(user?.phone || "");
+    const [birthDate, setBirthDate] = useState(
+        user?.birthDate ? new Date(user.birthDate) : null
+    );
+    const [cpf, setCpf] = useState(user?.cpf || "");
+    const [avatarSrc, setAvatarSrc] = useState(user?.avatarUrl || "");
+    const [formMessage, setFormMessage] = useState("");
 
-    // Lógica para preencher os campos se os dados do usuário mudarem
+    const [editingField, setEditingField] = useState(null);
+
     useEffect(() => {
         if (user) {
-            setName(user.name || '');
-            setEmail(user.email || '');
-            setPhone(user.phone || '');
-            setBirthDate(user.birthDate || '');
-            setCpf(user.cpf || '');
-            setAvatarSrc(user.avatarUrl || '');
+            setName(user.name || "");
+            setEmail(user.email || "");
+            setPhone(user.phone || "");
+            setBirthDate(user.birthDate ? new Date(user.birthDate) : null);
+            setCpf(user.cpf || "");
+            setAvatarSrc(user.avatarUrl || "");
         }
     }, [user]);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const updatedUser = {
-            ...user, // Mantém outras propriedades do usuário
+            ...user,
             name,
             email,
             phone,
-            birthDate,
+            birthDate: birthDate ? birthDate.toString() : null,
             cpf,
             avatarSrc,
         };
-        onSave(updatedUser); // Chama a função onSave passada como prop
-        setFormMessage('Dados salvos com sucesso!');
+        try {
+            await onSave(updatedUser);
+        } catch (error) {
+            console.error("Erro: ", error)
+        }
     };
 
-    const handleEdit = (field) => {
-        setFormMessage(`A edição do campo "${field}" ainda não foi implementada.`);
+    const handleEdit = (fieldName) => {
+        setEditingField(fieldName);
     };
 
     return (
         <div className={styles.formContainer}>
             <h1 className={styles.title}>Edite seu Cadastro!</h1>
-            
-            {/* Bloco para renderizar a mensagem de erro/sucesso: */}
-            {formMessage && (
-                <div className={styles.errorBox}>
-                    {formMessage}
-                </div>
-            )}
 
             <div className={styles.contentColumns}>
-                {/* Coluna dos Campos do Formulário */}
                 <div className={styles.formFieldsColumn}>
                     <EditableInfoField
                         label="Nome:"
                         value={name}
-                        onEditClick={() => handleEdit('Nome')}
+                        isEditing={editingField === "name"}
+                        onEditClick={() => handleEdit("name")}
+                        onChange={setName}
+                        type="text"
                     />
                     <EditableInfoField
                         label="Email:"
                         value={email}
-                        onEditClick={() => handleEdit('Email')}
+                        isEditing={editingField === "email"}
+                        onEditClick={() => handleEdit("email")}
+                        onChange={setEmail}
+                        type="text"
                     />
                     <EditableInfoField
                         label="Telefone:"
                         value={phone}
-                        onEditClick={() => handleEdit('Telefone')}
+                        isEditing={editingField === "phone"}
+                        onEditClick={() => handleEdit("phone")}
+                        onChange={setPhone}
+                        type="text"
                     />
                     <EditableInfoField
-                        label="Data de nascimento:"
+                        label="Data de Nascimento:"
                         value={birthDate}
-                        onEditClick={() => handleEdit('Data de nascimento')}
+                        isEditing={editingField === "birthDate"}
+                        onEditClick={() => handleEdit("birthDate")}
+                        onChange={setPhone}
+                        type="date"
                     />
                     <EditableInfoField
                         label="CPF:"
                         value={cpf}
-                        onEditClick={() => handleEdit('CPF')}
+                        isEditing={editingField === "cpf"}
+                        onEditClick={() => handleEdit("cpf")}
+                        onChange={setCpf}
+                        type="text"
                     />
                 </div>
 
-                {/* Coluna do Avatar */}
                 <div className={styles.avatarColumn}>
                     <UserAvatar src={avatarSrc} />
                 </div>
             </div>
 
-            {/* Botão Salvar */}
             <div className={styles.saveButtonContainer}>
                 <Button
                     onClick={handleSave}
                     style={{
-                        backgroundColor: 'var(--azul-primario)',
-                        color: 'white',
-                        padding: '12px 30px',
-                        fontSize: '18px',
-                        borderRadius: '8px',
-                        fontWeight: 'bold',
+                        backgroundColor: "var(--azul-primario)",
+                        color: "white",
+                        padding: "12px 30px",
+                        fontSize: "18px",
+                        borderRadius: "8px",
+                        fontWeight: "bold",
                     }}
                 >
                     Salvar

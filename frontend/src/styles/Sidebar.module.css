@@ -37,6 +37,14 @@
   transition: background-color 0.2s ease;
 }
 
+.sidebarItem a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
 .sidebarItem:hover {
   background-color: var(--branco-primario);
 }

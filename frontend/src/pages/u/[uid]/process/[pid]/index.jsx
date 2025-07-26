@@ -71,7 +71,7 @@ export default function ProcessDetailsPage({ uid, process }) {
             </Head>
 
             <div className={styles.layoutContainerStyle}>
-                <Header UserId={uid} />
+                <Header uid={uid} />
 
                 <main className={styles.mainContentStyle}>
                     <h1 className={styles.pageTitleStyle}>{process.title}</h1>

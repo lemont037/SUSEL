@@ -43,3 +43,20 @@
     flex-shrink: 0;
     /* Impede que o ícone diminua */
 }
+
+.contentWrapper :global(.react-datepicker-wrapper) {
+  width: 100%;
+}
+
+.contentWrapper :global(.react-datepicker__input-container) {
+  width: 100%;
+}
+
+.contentWrapper input {
+  background-color: var(--background);
+  border-radius: 8px;
+  border: 0px;
+  color: var(--foreground);
+  text-align: center;
+  width: 100%;
+}

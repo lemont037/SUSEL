@@ -38,6 +38,7 @@ export async function getServerSideWithAuth(context, url, options = {}) {
         const setCookieHeader = refreshResponse.headers.get("set-cookie");
 
         if (setCookieHeader) {
+            context.res.setHeader("Set-Cookie", setCookieHeader);
             fetchOptions.headers.Cookie = setCookieHeader;
         }
 

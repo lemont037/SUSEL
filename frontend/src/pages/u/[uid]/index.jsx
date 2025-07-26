@@ -50,7 +50,7 @@ export default function UserHome({ uid, activeProcesses, userProcesses }) {
             </Head>
 
             <div className={styles.layoutContainer}>
-                <Header />
+                <Header uid={uid} />
                 <div className={styles.contentArea}>
                     <Sidebar userProcesses={userProcesses} uid={uid} />
                     <main className={styles.mainContent}>

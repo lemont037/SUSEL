@@ -124,7 +124,7 @@ export default function ProcessSignUpPage() {
 
             {/* Container principal da página (Header no topo, Conteúdo abaixo) */}
             <div style={layoutContainerStyle}>
-                <Header /> {/* Componente de cabeçalho */}
+                <Header uid={uid}/> {/* Componente de cabeçalho */}
                 {/* Layout de duas colunas */}
                 <div style={twoColumnLayout}>
                     {/* Coluna do Formulário (Esquerda) */}

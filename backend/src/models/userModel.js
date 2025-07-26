@@ -19,10 +19,15 @@ const userSchema = new Schema({
     phone: {
         type: String,
         required: true,
+        unique: true
     },
     isWhatsapp: {
         type: Boolean,
         default: false
+    },
+    birhtDate: {
+        type: Date,
+        default: '',
     },
     password: {
         type: String,

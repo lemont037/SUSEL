@@ -75,9 +75,9 @@ export default function DeleteAccountPage({ user }) {
                 <title>SUSEL - Excluir Conta</title>
             </Head>
             <div className={layoutStyles.layoutContainer}>
-                <Header />
+                <Header uid={uid}/>
                 <div className={layoutStyles.contentArea}>
-                    <SettingsSidebar />
+                    <SettingsSidebar uid={uid}/>
 
                     <main className={layoutStyles.mainContent}>
                         {notification.message && (

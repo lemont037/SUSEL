@@ -96,7 +96,6 @@ export default function EditProcessPage({ initialProcessData }) {
 
             setNotification({ message: 'Processo atualizado com sucesso!', type: 'success' });
             
-            // Redireciona após um delay
             setTimeout(() => {
                 Router.push(`/admin/process-details?id=${id}`);
             }, 2000);

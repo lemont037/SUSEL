@@ -64,11 +64,14 @@ const userController = {
             if (userId !== req.user.uid) {
                 return res.status(403).json({message: "Unauthorized"})
             }
-
+            console.log("Seacrhing for user whit id: ", userId)
             const user = await User.findById(userId);
+
             if (!user) {
+                console.log("User not found")
                 res.status(404).json({message: 'User not found'});
             } else {
+                console.log("User foud. Sendindo response: ", user)
                 res.status(200).json(user);
             }
         } catch (error) {
@@ -204,23 +207,39 @@ const userController = {
 
         try {
             const userId = req.params.uid;
-            const { name, email } = req.body;
 
             if (userId !== req.user.uid) {
                 return res.status(403).json({message: "Unauthorized"})
             }
 
-            if (!name || !email) {
-                return res.status(400).send('Name and email are required');
+            const { name, email, phone, birthDate, cpf } = req.body;
+
+            if (!name || !email || !cpf) {
+                return res.status(400).json({message: 'Name, email and CPF are required'});
             }
-            const updatedUser = await User.findByIdAndUpdate(userId, { name, email }, { new: true });
+
+            const userWithUpdatedDataExists = await User.findOne({ _id: {$ne: userId}, $or: [{email: email, cpf: cpf, phone: phone}]})
+
+            if (userWithUpdatedDataExists) {
+                return res.status(409).json({message: 'There is another user with the information provided'})
+            }
+
+            const updatedData = {
+                name,
+                email,
+                phone,
+                birthDate,
+                cpf
+            }
+
+            const updatedUser = await User.findByIdAndUpdate(userId, updatedData, { new: true });
             if (!updatedUser) {
-                return res.status(404).send('User not found');
+                return res.status(404).json({message: 'User not found'});
             }
             res.status(200).json(updatedUser);
         } catch (error) {
             console.error('Error updating user info:', error);
-            res.status(500).send('Internal server error');
+            res.status(500).json({message: 'Internal server error'});
         }
     },
     deleteUser: async (req, res) => {
@@ -245,7 +264,7 @@ const userController = {
             res.status(200).json({ message: 'User deleted successfully' });
         } catch (error) {
             console.error('Error deleting user:', error);
-            res.status(500).send('Internal server error');
+            res.status(500).json({message: 'Internal server error'});
         }
     },
     submitToProcess: async (req, res) => {
@@ -305,7 +324,7 @@ const userController = {
 
             res.cookie('token', newToken, {
                 httpOnly: true,
-                secure: true,
+                secure: false,
                 sameSite: 'lax',
                 maxAge: 60*60*1000
             })

@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../styles/Sidebar.module.css";
+import Link from "next/link";
 
 export default function Sidebar({ userProcesses, uid }) {
     return (
@@ -13,9 +14,9 @@ export default function Sidebar({ userProcesses, uid }) {
                 ) : (
                     userProcesses.map((userProcesses) => (
                         <li key={userProcesses._id} className={styles.sidebarItem}>
-                            <a href={`/u/${uid}/process/${userProcesses._id}`}>
+                            <Link href={`/u/${uid}/process/${userProcesses._id}`}>
                                 {userProcesses.code} - {userProcesses.title}
-                            </a>
+                            </Link>
                         </li>
                     ))
                 )}
