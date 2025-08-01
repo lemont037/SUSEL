@@ -1,6 +1,8 @@
+const Submission = require('../models/submissionModel');
 const { User, Process } = require('../models/userModel');
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
+const path = require('path');
 
 const userController = {
     getActiveProcess: async (req, res) => {
@@ -27,29 +29,37 @@ const userController = {
         }
     },
     getUserProcessById: async (req, res) => {
-
         try {
-            const userId = req.params.uid;
+            const userIdFromUrl = req.params.uid;
+            const userIdFromToken = req.user.uid;
 
-            if (userId !== req.user.uid) {
-                return res.status(403).json({message: "Unauthorized"})
+            // --- INÍCIO DA DEPURAÇÃO ---
+            console.log("--- Verificação de Autorização em getUserProcessById ---");
+            console.log("ID da URL (req.params.uid):", userIdFromUrl);
+            console.log("ID do Token (req.user.uid):", userIdFromToken);
+            console.log("Os IDs são iguais?", userIdFromUrl === userIdFromToken);
+            console.log("----------------------------------------------------");
+            // --- FIM DA DEPURAÇÃO ---
+
+            // Verificação de segurança para garantir que o utilizador só pode ver os seus próprios dados
+            if (userIdFromUrl !== userIdFromToken) {
+                return res.status(403).json({ message: "Unauthorized: ID da URL não corresponde ao token." });
             }
 
             const processId = req.params.pid;
-            const user = await User.findById(userId);
-            if (!user) {
-                res.status(404).send('User not found');
+            const processById = await Process.findOne({ _id: processId, status: 'active' });
+
+            if (!processById) {
+                return res.status(404).json({ message: 'Processo não encontrado ou não está mais ativo.' });
             } else {
-                const processById = await Process.findById(processId);
-                if (!processById) {
-                    res.status(404).send('Process not found');
-                } else {
-                    res.status(200).json(processById);
-                }
+                return res.status(200).json(processById);
             }
         } catch (error) {
-            console.error('Error fetching process by ID:', error);
-            res.status(500).send('Internal server error');
+            console.error('Error fetching process by ID for user:', error);
+            if (error.name === 'CastError') {
+                return res.status(400).json({ message: `O ID de processo '${error.value}' não é um formato válido.` });
+            }
+            return res.status(500).json({ message: 'Internal server error' });
         }
     },
     getUserInfo: async (req, res) => {
@@ -248,6 +258,45 @@ const userController = {
             res.status(500).send('Internal server error');
         }
     },
+    createSubmission: async (req, res) => {
+        try {
+            const { uid, pid } = req.params;
+            if (uid !== req.user.uid) {
+                return res.status(403).json({ message: "Unauthorized" });
+            }
+
+            const candidateData = JSON.parse(req.body.candidateData);
+            const academicData = JSON.parse(req.body.academicData);
+            
+            // --- CORREÇÃO APLICADA AQUI ---
+            // Guardamos o caminho relativo em vez do absoluto.
+            const files = req.files.map(file => ({
+                originalName: file.originalname,
+                path: path.join('uploads', file.filename), // Usamos file.filename
+                mimetype: file.mimetype,
+            }));
+
+            const newSubmission = new Submission({
+                process: pid,
+                applicant: uid,
+                candidateData,
+                academicData,
+                files,
+            });
+
+            await newSubmission.save();
+
+            await Process.findByIdAndUpdate(pid, {
+                $push: { submissions: newSubmission._id }
+            });
+
+            res.status(201).json({ message: 'Submissão realizada com sucesso!', submission: newSubmission });
+
+        } catch (error) {
+            console.error('Error creating submission:', error);
+            res.status(500).json({ message: 'Erro interno do servidor' });
+        }
+    },
     submitToProcess: async (req, res) => {
         try {
             const userId = req.params.uid;
@@ -305,7 +354,7 @@ const userController = {
 
             res.cookie('token', newToken, {
                 httpOnly: true,
-                secure: true,
+                secure: false,
                 sameSite: 'lax',
                 maxAge: 60*60*1000
             })

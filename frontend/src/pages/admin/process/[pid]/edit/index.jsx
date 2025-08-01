@@ -1,60 +1,92 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import Router from "next/router";
-import styles from "../../styles/CreateProcess.module.css";
-import Button from "../../components/Button";
-import InputField from "../../components/InputField";
-import PhaseCard from "../../components/PhaseCard";
-import { getServerSideWithAuth } from "../../utils/getServerSideWithAuth";
-import { fetchWithAuth } from "../../utils/fetchWithAuth";
+import { useRouter } from "next/router";
+// --- CORREÇÃO APLICADA NOS CAMINHOS DE IMPORTAÇÃO ---
+import styles from "../../../../../styles/CreateProcess.module.css";
+import Button from "../../../../../components/Button";
+import InputField from "../../../../../components/InputField";
+import PhaseCard from "../../../../../components/PhaseCard";
+import { getServerSideWithAuth } from "../../../../../utils/getServerSideWithAuth";
+import { fetchWithAuth } from "../../../../../utils/fetchWithAuth";
 
 export async function getServerSideProps(context) {
-    const { id } = context.query;
+    const { pid } = context.params;
 
     try {
-        const response = await getServerSideWithAuth(
-            context,
-            `http://localhost:3001/admin/process/${id}`,
-            {
-                method: "GET",
-            }
-        );
+        const url = `http://localhost:3001/admin/process/${pid}`;
+        const authResult = await getServerSideWithAuth(context, url);
 
-        if (response?.redirect?.destination) {
-            return response;
-        } else if (!response.ok) return { notFound: true };
+        if (authResult.redirect) {
+            return authResult;
+        }
+
+        const { response, setCookieHeader } = authResult;
+
+        if (setCookieHeader) {
+            context.res.setHeader('Set-Cookie', setCookieHeader);
+        }
+
+        if (!response.ok) {
+            return { notFound: true };
+        }
+        
         const initialProcessData = await response.json();
         return { props: { initialProcessData } };
+
     } catch (error) {
-        console.error(`Could not fetch process ${id} for editing:`, error);
+        console.error(`Could not fetch process ${pid} for editing:`, error);
         return { notFound: true };
     }
 }
 
 export default function EditProcessPage({ initialProcessData }) {
-    const { id } = Router.query;
+    const router = useRouter();
+    const { pid } = router.query;
 
     const [title, setTitle] = useState("");
     const [code, setCode] = useState("");
     const [description, setDescription] = useState("");
     const [phases, setPhases] = useState([]);
-
     const [notification, setNotification] = useState({ message: '', type: '' });
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (initialProcessData) {
             setTitle(initialProcessData.title);
             setCode(initialProcessData.code);
             setDescription(initialProcessData.description);
-            setPhases(
-                initialProcessData.phases.map((p, i) => ({
-                    ...p,
-                    phaseId: i + 1,
-                }))
-            );
+            setPhases(initialProcessData.phases.map((p, i) => ({ ...p, phaseId: i + 1 })));
         }
     }, [initialProcessData]);
 
+    const handleUpdateProcess = async () => {
+        setIsLoading(true);
+        const processData = { title, code, description, phases };
+        try {
+            const url = `http://localhost:3001/admin/process/${pid}/edit`;
+            const { response, data } = await fetchWithAuth(
+                url,
+                {
+                    method: "PUT",
+                    body: JSON.stringify(processData),
+                }
+            );
+
+            if (!response.ok) throw new Error(data.message || "Falha ao atualizar o processo");
+
+            setNotification({ message: 'Processo atualizado com sucesso!', type: 'success' });
+            
+            setTimeout(() => {
+                router.push(`/admin/process/${pid}`);
+            }, 2000);
+
+        } catch (error) {
+            setNotification({ message: `Erro: ${error.message}`, type: 'error' });
+            setIsLoading(false);
+        }
+    };
+
+    // Funções para gerir as fases
     const handleAddPhase = () => {
         setPhases([
             ...phases,
@@ -79,44 +111,13 @@ export default function EditProcessPage({ initialProcessData }) {
         setPhases(newPhases);
     };
 
-    const handleUpdateProcess = async () => {
-        const processData = { title, code, description, phases };
-
-        try {
-            const response = await fetchWithAuth(
-                `http://localhost:3001/admin/process/${id}/edit`,
-                {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(processData),
-                }
-            );
-
-            if (!response.ok) throw new Error("Falha ao atualizar o processo");
-
-            setNotification({ message: 'Processo atualizado com sucesso!', type: 'success' });
-            
-            // Redireciona após um delay
-            setTimeout(() => {
-                Router.push(`/admin/process-details?id=${id}`);
-            }, 2000);
-
-            Router.push(`/admin/process-details?id=${id}`);
-        } catch (error) {
-            setNotification({ message: `Erro: ${error.message}`, type: 'error' });
-        }
-    };
-
     return (
         <>
             <Head>
-                <title>
-                    SUSEL - Editando: {initialProcessData?.title || "Processo"}
-                </title>
+                <title>SUSEL - Editando: {initialProcessData?.title || "Processo"}</title>
             </Head>
             <main className={styles.content}>
                 <h2 className={styles.pageTitle}>Edição Processo Seletivo</h2>
-
                 {notification.message && (
                     <div className={notification.type === 'success' ? styles.successBox : styles.errorBox}>
                         {notification.message}
@@ -173,11 +174,11 @@ export default function EditProcessPage({ initialProcessData }) {
                     </button>
                 </section>
 
-                <div className={styles.actionButtons}>
-                    <Button variant="primary" onClick={handleUpdateProcess}>
-                        Atualizar
+                 <div className={styles.actionButtons}>
+                    <Button variant="primary" onClick={handleUpdateProcess} disabled={isLoading}>
+                        {isLoading ? 'A Atualizar...' : 'Atualizar'}
                     </Button>
-                    <Button variant="secondary" onClick={() => Router.back()}>
+                    <Button variant="secondary" onClick={() => router.back()}>
                         Cancelar
                     </Button>
                 </div>

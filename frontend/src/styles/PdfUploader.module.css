@@ -1,0 +1,49 @@
+.dropZone {
+    border: 2px dashed #adb5bd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    color: #495057;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.dropZone:hover {
+    border-color: #007bff;
+    background-color: #e9ecef;
+}
+
+.dropZone.dragOver {
+    background-color: #e2e6ea;
+    border-color: #0056b3;
+}
+
+.fileInput {
+    display: none;
+}
+
+.fileDisplay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e9ecef;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-family: sans-serif;
+    color: #212529;
+}
+
+.deleteButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #dc3545;
+    padding: 0 0.5rem;
+}
+
+.deleteButton:hover {
+    color: #a71d2a;
+}

@@ -4,58 +4,47 @@ import styles from '../styles/CandidateDataForm.module.css'; // Importa o CSS Mo
 import InputField from './InputField'; // Reutiliza o componente InputField
 import SectionCard from './SectionCard'; // Reutiliza SectionCard como um container, se desejar
 
-export default function CandidateDataForm() {
-    // Estados para os campos de identificação
-    const [name, setName] = useState('');
-    const [cpf, setCpf] = useState('');
-    const [rg, setRg] = useState('');
-    const [gender, setGender] = useState('');
 
-    // Estados para os campos de contato
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-
-    // Estados para os campos de endereço
-    const [cep, setCep] = useState('');
-    const [address, setAddress] = useState('');
-    const [number, setNumber] = useState('');
-    const [complement, setComplement] = useState('');
-    const [neighborhood, setNeighborhood] = useState('');
-    const [city, setCity] = useState('');
+// O componente agora recebe 'formData' e 'setFormData' como props
+export default function CandidateDataForm({ formData, setFormData }) {
+    
+    // Função para atualizar o estado no componente pai
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
 
     return (
-        // Reutilizando SectionCard como container principal da seção "Dados do Candidato"
         <SectionCard title="Dados do Candidato">
-            {/* Sub-seção: Identificação */}
+            {/* Identificação */}
             <div className={styles.formSection}>
                 <h3 className={styles.subSectionTitle}>Identificação</h3>
                 <div className={styles.inputGrid}>
-                    <InputField label="Nome Completo" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                    <InputField label="CPF" type="text" value={cpf} onChange={(e) => setCpf(e.target.value)} />
-                    <InputField label="RG" type="text" value={rg} onChange={(e) => setRg(e.target.value)} />
-                    <InputField label="Gênero" type="text" value={gender} onChange={(e) => setGender(e.target.value)} />
+                    {/* O 'name' do input deve ser igual à chave no estado */}
+                    <InputField label="Nome Completo" name="name" type="text" value={formData.name} onChange={handleChange} />
+                    <InputField label="CPF" name="cpf" type="text" value={formData.cpf} onChange={handleChange} />
+                    <InputField label="RG" name="rg" type="text" value={formData.rg} onChange={handleChange} />
+                    <InputField label="Gênero" name="gender" type="text" value={formData.gender} onChange={handleChange} />
                 </div>
             </div>
-
-            {/* Sub-seção: Contato */}
+            {/* Contato */}
             <div className={styles.formSection}>
                 <h3 className={styles.subSectionTitle}>Contato</h3>
                 <div className={styles.inputGrid}>
-                    <InputField label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <InputField label="Telefone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                    <InputField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} />
+                    <InputField label="Telefone" name="phone" type="tel" value={formData.phone} onChange={handleChange} />
                 </div>
             </div>
-
-            {/* Sub-seção: Endereço */}
+            {/* Endereço */}
             <div className={styles.formSection}>
                 <h3 className={styles.subSectionTitle}>Endereço</h3>
                 <div className={styles.inputGrid}>
-                    <InputField label="CEP" type="text" value={cep} onChange={(e) => setCep(e.target.value)} />
-                    <InputField label="Endereço" type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-                    <InputField label="Nº" type="text" value={number} onChange={(e) => setNumber(e.target.value)} />
-                    <InputField label="Complemento" type="text" value={complement} onChange={(e) => setComplement(e.target.value)} />
-                    <InputField label="Bairro" type="text" value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} />
-                    <InputField label="Cidade" type="text" value={city} onChange={(e) => setCity(e.target.value)} />
+                    <InputField label="CEP" name="cep" type="text" value={formData.cep} onChange={handleChange} />
+                    <InputField label="Rua" name="street" type="text" value={formData.street} onChange={handleChange} />
+                    <InputField label="Número" name="number" type="text" value={formData.number} onChange={handleChange} />
+                    <InputField label="Complemento" name="complement" type="text" value={formData.complement} onChange={handleChange} />
+                    <InputField label="Bairro" name="neighborhood" type="text" value={formData.neighborhood} onChange={handleChange} />
+                    <InputField label="Cidade" name="city" type="text" value={formData.city} onChange={handleChange} />
                 </div>
             </div>
         </SectionCard>

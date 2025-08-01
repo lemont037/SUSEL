@@ -1,10 +1,13 @@
 const userController = require('../controllers/userController');
-const authenticateToken = require('../middlewares/authMiddleware')
+const authenticateToken = require('../middlewares/authMiddleware');
+const multer = require('multer');
+
+const upload = multer({ dest: 'uploads/' });
 
 module.exports = (app) => {
     app.get('/u/:uid', authenticateToken, userController.getActiveProcess);
     app.get('/u/:uid/process/:pid', authenticateToken, userController.getUserProcessById);
-    app.post('/u/:uid/process/:pid/submit', authenticateToken, userController.submitToProcess);
+    app.post('/u/:uid/process/:pid/submit', authenticateToken, upload.array('documents'), userController.createSubmission);
     app.get('/u/:uid/config', authenticateToken, userController.getUserInfo);
     app.put('/u/:uid/config/edit', authenticateToken, userController.updateUserInfo);
     app.delete('/u/:uid/config/delete', authenticateToken, userController.deleteUser);

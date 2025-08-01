@@ -97,7 +97,7 @@ export default function ClientModal({ processId }) {
                 {isMenuOpen && (
                     <div className={styles.kebabMenu}>
                         <Link
-                            href={`/admin/edit-process?id=${processId}`}
+                            href={`/admin/process/${processId}/edit`}
                             legacyBehavior
                         >
                             <a
