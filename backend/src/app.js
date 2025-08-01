@@ -7,6 +7,13 @@ const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const processRoutes = require('./routes/processRoutes');
 
+const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpecs = require('./swagger'); // Certifique-se de que o caminho está correto
+
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
+
 const app = express();
 app.use(express.json());
 app.use(cors({
