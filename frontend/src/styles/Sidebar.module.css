@@ -40,3 +40,46 @@
 .sidebarItem:hover {
   background-color: var(--branco-primario);
 }
+
+.sidebarItem a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.sidebarItem a:hover {
+    background-color: #f0f0f0;
+}
+
+.processTitle {
+    font-weight: 500;
+    margin-right: 1rem;
+}
+
+.statusBadge {
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.statusSubmitted {
+    background-color: #feefc3; /* Amarelo */
+    color: #7a5f02;
+}
+
+.statusApproved {
+    background-color: #dcfce7; /* Verde */
+    color: #166534;
+}
+
+.statusRejected {
+    background-color: #fee2e2; /* Vermelho */
+    color: #b91c1c;
+}

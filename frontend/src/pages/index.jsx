@@ -71,6 +71,11 @@ export default function LoginPage() {
 
                     <Card>
                         <form>
+                            {error && (
+                                <div className={styles.errorBox}>
+                                    {error}
+                                </div>
+                            )}
                             <InputField
                                 label="Email"
                                 type="email"

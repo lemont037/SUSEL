@@ -34,7 +34,9 @@ export async function getServerSideProps(context) {
             props: {
                 uid: uid,
                 activeProcesses: data.activeProcesses || [],
-                userProcesses: data.userProcesses || [],
+                // --- CORREÇÃO APLICADA AQUI ---
+                // Agora passamos 'userSubmissions' em vez de 'userProcesses'
+                userSubmissions: data.userSubmissions || [],
             },
         };
     } catch (error) {
@@ -48,7 +50,7 @@ export async function getServerSideProps(context) {
     }
 }
 
-export default function UserHome({ uid, activeProcesses, userProcesses }) {
+export default function UserHome({ uid, activeProcesses, userSubmissions }) {
     const getFinalEndDate = (phases) => {
         if (!phases || phases.length === 0) return 'N/A';
         const lastPhase = phases[phases.length - 1];
@@ -68,7 +70,7 @@ export default function UserHome({ uid, activeProcesses, userProcesses }) {
             <div className={styles.layoutContainer}>
                 <Header />
                 <div className={styles.contentArea}>
-                    <Sidebar userProcesses={userProcesses} uid={uid} />
+                    <Sidebar userSubmissions={userSubmissions} uid={uid} />
                     <main className={styles.mainContent}>
                         <h1 className={styles.pageTitle}>Processos Ativos no Momento</h1>
                         <div className={styles.processList}>

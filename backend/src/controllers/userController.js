@@ -6,26 +6,28 @@ const path = require('path');
 
 const userController = {
     getActiveProcess: async (req, res) => {
-
         try {
             const userId = req.params.uid;
-
             if (userId !== req.user.uid) {
-                return res.status(403).json({message: "Unauthorized"})
+                return res.status(403).json({ message: "Unauthorized" });
             }
 
-            const user = await User.findById(userId);
-            if (!user) {
-               res.status(404).json({message: 'User not found'});
-            } else {
-                const activeProcesses = await Process.find({ status: 'active'});
-                const userProcesses = await Process.find({ subscribers: userId });
+            // A lógica para buscar processos ativos continua a mesma
+            const activeProcesses = await Process.find({ status: 'active' });
 
-                res.status(200).json({activeProcesses, userProcesses});
-            }
+            // --- CORREÇÃO APLICADA AQUI ---
+            // Em vez de buscar os processos, buscamos as SUBMISSÕES do utilizador.
+            // Usamos .populate() para incluir os detalhes do processo em cada submissão.
+            const userSubmissions = await Submission.find({ applicant: userId })
+                .populate('process', 'title code'); // 'process' é o nome do campo no submissionModel
+                                                    // 'title' e 'code' são os campos que queremos do Process
+
+            // Enviamos a nova lista de 'userSubmissions' para o frontend
+            res.status(200).json({ activeProcesses, userSubmissions });
+
         } catch (error) {
             console.error('Error fetching active processes:', error);
-            res.status(500).json({message: 'Internal server error'});
+            res.status(500).json({ message: 'Internal server error' });
         }
     },
     getUserProcessById: async (req, res) => {
@@ -129,7 +131,7 @@ const userController = {
             const user = await User.findOne({ email, password });
             
             if (!user) {
-                return res.status(401).json({message: 'Invalid email or password'});
+                return res.status(401).json({message: 'Email e/ou senha inválidos'});
             }
 
             const payload = {
